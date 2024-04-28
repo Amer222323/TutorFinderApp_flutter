@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:firebaseconnations/snackbar_util.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -38,7 +39,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         // ignore: use_build_context_synchronously
         Navigator.of(context).pushNamed("/");
       } catch (e) {
-        print("Error signing up: $e");
+        showCustomSnackBar(context, "error signing Up");
       }
     }
   }
@@ -60,8 +61,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   bool passwordConfirmed() {
-    return _passwordController.text.trim() ==
-        _confirmPasswordController.text.trim();
+    String password = _passwordController.text.trim();
+    String confirmPassword = _confirmPasswordController.text.trim();
+    if (password == confirmPassword) {
+      return passwordMeetsCriteria(password);
+    } else {
+      showCustomSnackBar(context, "The passwords didn't match");
+      return false;
+    }
+  }
+
+  bool passwordMeetsCriteria(String password) {
+    String pattern =
+        r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\(\)])[A-Za-z\d@\(\)$!%*?&+**,&%#*!#@]{8,}$";
+    RegExp regex = RegExp(pattern);
+    if (regex.hasMatch(password)) {
+      return true;
+    } else {
+      showCustomSnackBar(context, "Your password is not strong enough");
+      return false;
+    }
   }
 
   @override
@@ -259,43 +278,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(height: 40)
               ],
             ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    bool obscureText = false,
-  }) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      decoration: BoxDecoration(
-        boxShadow: [
-          BoxShadow(
-            color: Colors.indigo.withOpacity(0.5),
-            spreadRadius: 5,
-            blurRadius: 7,
-            offset: const Offset(0, 3),
-          ),
-        ],
-        border: Border.all(
-          color: Colors.black12,
-          width: 2,
-        ),
-        color: Colors.grey[300],
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: TextField(
-          controller: controller,
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            border: InputBorder.none,
-            hintText: hintText,
           ),
         ),
       ),

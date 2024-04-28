@@ -53,7 +53,12 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   const Text("Hello , you are signed in",
                       style: TextStyle(fontSize: 22)),
-                  Text(user.email!, style: const TextStyle(fontSize: 22)),
+                  Text(user.email!,
+                      style: const TextStyle(
+                          fontFamily: 'Source Sans 3',
+                          fontSize: 22,
+                          letterSpacing: 2.5,
+                          fontWeight: FontWeight.bold)),
                   MaterialButton(
                       onPressed: () {
                         FirebaseAuth.instance.signOut();

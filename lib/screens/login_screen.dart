@@ -1,3 +1,4 @@
+import 'package:firebaseconnations/snackbar_util.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -13,11 +14,16 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  // ignore: prefer_typing_uninitialized_variables
   var _isObsecured;
   Future signIn() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim());
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: _emailController.text.trim(),
+          password: _passwordController.text.trim());
+    } catch (e) {
+      showCustomSnackBar(context, "There is no account with this password");
+    }
   }
 
   void openSignupScreen() {
