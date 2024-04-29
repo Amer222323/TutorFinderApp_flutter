@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 void showCustomSnackBar(BuildContext context, String message) {
@@ -64,46 +63,4 @@ Widget buildTextField({
       ),
     ),
   );
-}
-
-class AppBarmenu extends StatefulWidget {
-  final User user = FirebaseAuth.instance.currentUser!;
-
-  @override
-  State<AppBarmenu> createState() => _AppBarmenuState();
-}
-
-class _AppBarmenuState extends State<AppBarmenu> {
-  @override
-  Widget build(BuildContext context) {
-    return AppBar(
-      toolbarHeight: 90,
-      backgroundColor: Colors.transparent,
-      leadingWidth: 90,
-      title: Center(
-          child: Text(widget.user.email!,
-              style:
-                  const TextStyle(fontSize: 22, fontWeight: FontWeight.bold))),
-      leading: IconButton(
-        icon: Image.asset(
-          "images/menuIcon.png",
-          width: 80, // Adjust the width of the image
-          height: 80, // Adjust the height of the image
-          fit: BoxFit.fill, // Adjust the fit of the image
-        ),
-        onPressed: () {
-          // Add your navigation logic here
-          // For example, Navigator.pop(context) to pop the current route
-        },
-      ),
-      actions: [
-        IconButton(
-          icon: Image.asset("images/profileIcon.png"), // Menu button icon
-          onPressed: () {
-            // Add your menu button logic here to open the menu
-          },
-        ),
-      ],
-    );
-  }
 }

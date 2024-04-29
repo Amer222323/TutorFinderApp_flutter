@@ -1,40 +1,43 @@
-import 'package:firebaseconnations/screens/home_screen.dart';
-import 'package:firebaseconnations/screens/login_screen.dart';
-import 'package:firebaseconnations/screens/signup_screen.dart';
+import 'package:firebaseconnations/screen/AllSubjects.dart';
+import 'package:firebaseconnations/screen/Profile/CreateSubject.dart';
+import 'package:firebaseconnations/screen/Profile/ProfilePrivet.dart';
+import 'package:firebaseconnations/screen/Profile/ProfilePublic.dart';
+import 'package:firebaseconnations/screen/Profile/ProfilePublicStudent.dart';
+import 'package:firebaseconnations/screen/Seach.dart';
+import 'package:firebaseconnations/screen/SubjecktDetalis.dart';
+import 'package:firebaseconnations/screen/auth/login.dart';
+import 'package:firebaseconnations/screen/auth/signup_screen.dart';
+import 'package:firebaseconnations/screen/booking.dart';
+import 'package:firebaseconnations/screen/homeScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'auth.dart';
 
-void main() async {
-  // Ensure Flutter bindings are initialized before Firebase
-  WidgetsFlutterBinding.ensureInitialized();
-
-  // Initialize Firebase
-  await Firebase.initializeApp();
-
-  // Run your app
-  runApp(const MyApp());
+void main() {
+  runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Firebase App',
-      //home: const Auth(),
       routes: {
-        '/': (context) => const Auth(),
-        'homeScreen': (context) => const HomeScreen(),
-        'signupScreen': (context) => const SignUpScreen(),
-        'loginScreen': (context) => const LoginScreen(),
+        "/": (context) => Login(),
+        "/Login": (context) => Login(), //TODO change a class to auth()
+        "/signupScreen": (context) => SignUpScreen(),
+        "/home": (context) => Home(),
+        "/ProfilePublicStudent": (context) => ProfilePublicStudent(),
+        "/ProfilePublic": (context) => ProfilePublic(),
+        "/ProfilePrivet": (context) => ProfilePrivet(),
+        "/booking": (context) => Booking(),
+        "/bookingSuccessful ": (context) =>
+            Login(), //TODO : text alert ? or pages
+        "/bookingError": (context) => Login(), //TODO : text alert ? or pages
+        "/SubjecktDetalis": (context) => SubjecktDetalis(),
+        "/Search": (context) => Search(),
+        "/CreateSubject": (context) => CreateSubject(),
+        "/AllSubjects": (context) => AllSubjects(),
       },
+      title: 'Flutter Demo',
+      theme: ThemeData.light(),
     );
   }
 }
