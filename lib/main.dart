@@ -1,15 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebaseconnations/screen/all_subjects.dart';
 import 'package:firebaseconnations/screen/Profile/create_subject.dart';
 import 'package:firebaseconnations/screen/Profile/profile_privet.dart';
 import 'package:firebaseconnations/screen/Profile/profile_public.dart';
 import 'package:firebaseconnations/screen/Profile/profile_public_student.dart';
-import 'package:firebaseconnations/screen/search.dart';
-import 'package:firebaseconnations/screen/subjekt_detalis.dart';
+import 'package:firebaseconnations/screen/all_subjects.dart';
+import 'package:firebaseconnations/screen/auth/auth.dart';
 import 'package:firebaseconnations/screen/auth/login.dart';
 import 'package:firebaseconnations/screen/auth/signup_screen.dart';
 import 'package:firebaseconnations/screen/booking.dart';
 import 'package:firebaseconnations/screen/home_screen.dart';
+import 'package:firebaseconnations/screen/search.dart';
+import 'package:firebaseconnations/screen/subjekt_detalis.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        "/": (context) => const Login(),
+        "/": (context) => const Auth(),
         "/Login": (context) => const Login(), //TODO change a class to auth()
         "/signupScreen": (context) => const SignUpScreen(),
         "/home": (context) => const Home(),
