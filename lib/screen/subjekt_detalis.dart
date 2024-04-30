@@ -1,4 +1,4 @@
-import 'package:firebaseconnations/LayoutAppMenu/Appstart_Menu.dart';
+import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
 import 'package:flutter/material.dart';
 
 class SubjecktDetalis extends StatefulWidget {
@@ -13,23 +13,25 @@ class _SubjecktDetalisState extends State<SubjecktDetalis> {
 
   @override
   Widget build(BuildContext context) {
-    return Appstart_Menu(
+    return AppStartMenu(
       children: [
-        SizedBox(height: 30,),
+        const SizedBox(
+          height: 30,
+        ),
         Container(
           color: Colors.white70,
-          padding: EdgeInsets.all(23),
+          padding: const EdgeInsets.all(23),
           child: Column(
             children: [
-              CircleAvatar(
+              const CircleAvatar(
                 radius: 100,
                 backgroundImage: AssetImage("images/nour.png"),
               ),
-              Text(
+              const Text(
                 "Name/Vorname",
                 style: TextStyle(fontFamily: 'MontserratBold', fontSize: 24),
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image(image: AssetImage("images/starOn.png")),
@@ -39,21 +41,21 @@ class _SubjecktDetalisState extends State<SubjecktDetalis> {
                   Image(image: AssetImage("images/star.png")),
                 ],
               ),
-              Text(
+              const Text(
                 "@User",
                 style: TextStyle(
                     fontFamily: 'MontserratBold',
                     fontSize: 24,
                     color: Colors.black26),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
                 width: 150,
                 child: Divider(
                   color: Colors.black12,
                 ),
               ),
-              Padding(
+              const Padding(
                   padding: EdgeInsets.all(32),
                   child: Text(
                       style: TextStyle(
@@ -67,7 +69,7 @@ class _SubjecktDetalisState extends State<SubjecktDetalis> {
                 child: FloatingActionButton(
                   onPressed: onPress,
                   backgroundColor: Colors.blueAccent,
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(

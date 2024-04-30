@@ -1,15 +1,15 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebaseconnations/screen/AllSubjects.dart';
-import 'package:firebaseconnations/screen/Profile/CreateSubject.dart';
-import 'package:firebaseconnations/screen/Profile/ProfilePrivet.dart';
-import 'package:firebaseconnations/screen/Profile/ProfilePublic.dart';
-import 'package:firebaseconnations/screen/Profile/ProfilePublicStudent.dart';
-import 'package:firebaseconnations/screen/Seach.dart';
-import 'package:firebaseconnations/screen/SubjecktDetalis.dart';
+import 'package:firebaseconnations/screen/all_subjects.dart';
+import 'package:firebaseconnations/screen/Profile/create_subject.dart';
+import 'package:firebaseconnations/screen/Profile/profile_privet.dart';
+import 'package:firebaseconnations/screen/Profile/profile_public.dart';
+import 'package:firebaseconnations/screen/Profile/profile_public_student.dart';
+import 'package:firebaseconnations/screen/search.dart';
+import 'package:firebaseconnations/screen/subjekt_detalis.dart';
 import 'package:firebaseconnations/screen/auth/login.dart';
 import 'package:firebaseconnations/screen/auth/signup_screen.dart';
 import 'package:firebaseconnations/screen/booking.dart';
-import 'package:firebaseconnations/screen/homeScreen.dart';
+import 'package:firebaseconnations/screen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -18,29 +18,32 @@ void main() async {
 
   // Initialize Firebase
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       routes: {
-        "/": (context) => Login(),
-        "/Login": (context) => Login(), //TODO change a class to auth()
-        "/signupScreen": (context) => SignUpScreen(),
-        "/home": (context) => Home(),
-        "/ProfilePublicStudent": (context) => ProfilePublicStudent(),
-        "/ProfilePublic": (context) => ProfilePublic(),
-        "/ProfilePrivet": (context) => ProfilePrivet(),
-        "/booking": (context) => Booking(),
+        "/": (context) => const Login(),
+        "/Login": (context) => const Login(), //TODO change a class to auth()
+        "/signupScreen": (context) => const SignUpScreen(),
+        "/home": (context) => const Home(),
+        "/ProfilePublicStudent": (context) => const ProfilePublicStudent(),
+        "/ProfilePublic": (context) => const ProfilePublic(),
+        "/ProfilePrivet": (context) => const ProfilePrivet(),
+        "/booking": (context) => const Booking(),
         "/bookingSuccessful ": (context) =>
-            Login(), //TODO : text alert ? or pages
-        "/bookingError": (context) => Login(), //TODO : text alert ? or pages
-        "/SubjecktDetalis": (context) => SubjecktDetalis(),
-        "/Search": (context) => Search(),
-        "/CreateSubject": (context) => CreateSubject(),
-        "/AllSubjects": (context) => AllSubjects(),
+            const Login(), //TODO : text alert ? or pages
+        "/bookingError": (context) =>
+            const Login(), //TODO : text alert ? or pages
+        "/SubjecktDetalis": (context) => const SubjecktDetalis(),
+        "/Search": (context) => const Search(),
+        "/CreateSubject": (context) => const CreateSubject(),
+        "/AllSubjects": (context) => const AllSubjects(),
       },
       title: 'Flutter Demo',
       theme: ThemeData.light(),

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebaseconnations/Componet/snackbar.dart';
-import 'package:firebaseconnations/LayoutAppMenu/Appstart_Menu.dart';
+import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -101,13 +101,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Appstart_Menu(children: [
+    return AppStartMenu(children: [
       Text(
         'SIGN UP',
         style: GoogleFonts.robotoCondensed(
           fontSize: 60,
           fontWeight: FontWeight.bold,
-          color: Colors.white,
+          color: Colors.black,
           letterSpacing: .5,
         ),
       ),
@@ -116,7 +116,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'Welcome! Here you can sign up :-)',
         style: GoogleFonts.robotoCondensed(
           fontSize: 18,
-          color: Colors.white70,
+          color: Colors.black,
         ),
       ),
       const SizedBox(height: 25),
@@ -255,7 +255,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Text(
             "Already a member? ",
             style: GoogleFonts.robotoCondensed(
-              color: Colors.white,
+              color: Colors.black,
               fontWeight: FontWeight.bold,
               fontSize: 15,
             ),

@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebaseconnations/Componet/snackbar.dart';
-import 'package:firebaseconnations/LayoutAppMenu/Appstart_Menu.dart';
+import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -47,18 +47,15 @@ class _LoginState extends State<Login> {
   final String btnText = "Sign in";
   @override
   Widget build(BuildContext context) {
-    Size screenSize = MediaQuery.of(context).size;
-    double screenWidth = screenSize.width;
-    return Appstart_Menu(
+    return AppStartMenu(
       children: [
-        const SizedBox(height: 50),
         //title
         Text(
           'SIGN IN',
           style: GoogleFonts.robotoCondensed(
-            fontSize: 40,
+            fontSize: 55,
             fontWeight: FontWeight.bold,
-            textStyle: const TextStyle(color: Colors.white, letterSpacing: .5),
+            textStyle: const TextStyle(color: Colors.black, letterSpacing: .5),
           ),
         ),
         //image
@@ -202,7 +199,7 @@ class _LoginState extends State<Login> {
             ),
           ],
         ),
-        const SizedBox(height: 40)
+        const SizedBox(height: 100)
       ],
     );
   }

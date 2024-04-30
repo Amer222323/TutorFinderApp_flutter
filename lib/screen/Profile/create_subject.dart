@@ -1,4 +1,4 @@
-import 'package:firebaseconnations/LayoutAppMenu/Appstart_Menu.dart';
+import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
 import 'package:flutter/material.dart';
 
 class CreateSubject extends StatefulWidget {
@@ -12,18 +12,18 @@ class _CreateSubjectState extends State<CreateSubject> {
   void onPress() {}
   @override
   Widget build(BuildContext context) {
-    return Appstart_Menu(
+    return AppStartMenu(
       children: [
-        SizedBox(
+        const SizedBox(
           height: 110,
         ),
         Container(
           width: double.infinity,
           color: Colors.white,
-          padding: EdgeInsets.all(32),
+          padding: const EdgeInsets.all(32),
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 100,
                 child: TextField(
                     decoration: InputDecoration(
@@ -31,7 +31,7 @@ class _CreateSubjectState extends State<CreateSubject> {
                         hintText: 'Hourly fees',
                         icon: Icon(Icons.euro))),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 100,
                 child: TextField(
                     decoration: InputDecoration(
@@ -39,7 +39,7 @@ class _CreateSubjectState extends State<CreateSubject> {
                         hintText: 'Hourly fees',
                         icon: Icon(Icons.euro))),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 100,
                 child: TextField(
                     decoration: InputDecoration(
@@ -47,7 +47,7 @@ class _CreateSubjectState extends State<CreateSubject> {
                         hintText: 'Hourly fees',
                         icon: Icon(Icons.image))),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 100,
                 child: TextField(
                   keyboardType: TextInputType.multiline,
@@ -59,7 +59,7 @@ class _CreateSubjectState extends State<CreateSubject> {
                               BorderSide(width: 1, color: Colors.redAccent))),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               SizedBox(
@@ -68,7 +68,7 @@ class _CreateSubjectState extends State<CreateSubject> {
                 child: FloatingActionButton(
                   onPressed: onPress,
                   backgroundColor: Colors.blue,
-                  child: Row(
+                  child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
