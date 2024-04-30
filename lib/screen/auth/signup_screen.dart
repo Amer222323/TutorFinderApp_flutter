@@ -226,7 +226,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         hintText: "Confirm Password",
         obscureText: true,
       ),
-      const SizedBox(height: 15),
+      const SizedBox(height: 25),
       GestureDetector(
         onTap: signUp,
         child: Container(

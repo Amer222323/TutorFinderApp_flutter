@@ -34,7 +34,7 @@ Widget buildTextField({
   bool obscureText = false,
 }) {
   return Container(
-    padding: const EdgeInsets.symmetric(horizontal: 10),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
     decoration: BoxDecoration(
       boxShadow: [
         BoxShadow(
