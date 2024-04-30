@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebaseconnations/screen/AllSubjects.dart';
 import 'package:firebaseconnations/screen/Profile/CreateSubject.dart';
 import 'package:firebaseconnations/screen/Profile/ProfilePrivet.dart';
@@ -11,7 +12,12 @@ import 'package:firebaseconnations/screen/booking.dart';
 import 'package:firebaseconnations/screen/homeScreen.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  // Ensure Flutter bindings are initialized before Firebase
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // Initialize Firebase
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
