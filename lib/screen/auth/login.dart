@@ -50,12 +50,14 @@ class _LoginState extends State<Login> {
     return AppStartMenu(
       children: [
         //title
-        Text(
+        const Text(
           'SIGN IN',
-          style: GoogleFonts.robotoCondensed(
+          style: TextStyle(
+            fontFamily: "Source Sans 3",
+            color: Colors.black,
+            letterSpacing: 5,
             fontSize: 55,
             fontWeight: FontWeight.bold,
-            textStyle: const TextStyle(color: Colors.black, letterSpacing: .5),
           ),
         ),
         //image

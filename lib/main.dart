@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         "/home": (context) => const Home(),
         "/ProfilePublicStudent": (context) => const ProfilePublicStudent(),
         "/ProfilePublic": (context) => const ProfilePublic(),
-        "/ProfilePrivet": (context) => const ProfilePrivet(),
+        "/ProfilePrivet": (context) => const ProfilePrivate(),
         "/booking": (context) => const Booking(),
         "/bookingSuccessful ": (context) =>
             const Login(), //TODO : text alert ? or pages
