@@ -53,10 +53,60 @@ Widget buildTextField({
     ),
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: TextField(
+      child: TextFormField(
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return 'Please Enter somthing';
+          }
+          return null;
+        },
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: hintText,
+        ),
+      ),
+    ),
+  );
+}
+
+Widget buildPasswordTextField(
+    {required TextEditingController controller,
+    required String hintText,
+    required bool isObscured,
+    required VoidCallback toggleVisibility}) {
+  return Container(
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+    decoration: BoxDecoration(
+      boxShadow: [
+        BoxShadow(
+          color: Colors.indigo.withOpacity(0.5),
+          spreadRadius: 5,
+          blurRadius: 7,
+          offset: const Offset(0, 3),
+        ),
+      ],
+      border: Border.all(
+        color: Colors.black12,
+        width: 2,
+      ),
+      color: Colors.grey[300],
+      borderRadius: BorderRadius.circular(12),
+    ),
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: TextField(
+        controller: controller,
+        obscureText: isObscured,
+        decoration: InputDecoration(
+          suffixIcon: IconButton(
+            padding: const EdgeInsetsDirectional.only(end: 1.0),
+            icon: isObscured
+                ? const Icon(Icons.visibility)
+                : const Icon(Icons.visibility_off),
+            onPressed: toggleVisibility,
+          ),
           border: InputBorder.none,
           hintText: hintText,
         ),

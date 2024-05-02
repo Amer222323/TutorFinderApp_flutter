@@ -23,6 +23,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final List<String> genderItems = ['Male', 'Female'];
   String? selectedGender;
 
+  final _formKey = GlobalKey<FormState>();
+
   Future<void> signUp() async {
     if (passwordConfirmed()) {
       try {
@@ -96,183 +98,199 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   void openLoginScreen() {
-    Navigator.pop(context);
+    Navigator.pushNamed(context, '/Login');
+  }
+
+  var _isObsecured;
+  void toggleVisibility() {
+    setState(() {
+      _isObsecured = !_isObsecured;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _isObsecured = true;
   }
 
   @override
   Widget build(BuildContext context) {
-    return AppStartMenu(children: [
-      Text(
-        'SIGN UP',
-        style: GoogleFonts.robotoCondensed(
-          fontSize: 60,
-          fontWeight: FontWeight.bold,
-          color: Colors.black,
-          letterSpacing: .5,
-        ),
-      ),
-      const SizedBox(height: 25),
-      Text(
-        'Welcome! Here you can sign up :-)',
-        style: GoogleFonts.robotoCondensed(
-          fontSize: 18,
-          color: Colors.black,
-        ),
-      ),
-      const SizedBox(height: 25),
-      buildTextField(
-        controller: _firstNameController,
-        hintText: "First Name",
-      ),
-      const SizedBox(height: 15),
-      buildTextField(
-        controller: _lastNameController,
-        hintText: "Last Name",
-      ),
-      const SizedBox(height: 15),
-      buildTextField(
-        controller: _ageController,
-        hintText: "Age",
-      ),
-      const SizedBox(height: 15),
-      Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.indigo.withOpacity(0.5),
-              spreadRadius: 5,
-              blurRadius: 7,
-              offset: const Offset(0, 3),
-            ),
-          ],
-          border: Border.all(
-            color: Colors.black12,
-            width: 2,
-          ),
-          color: Colors.grey[300],
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: DropdownButtonFormField2<String>(
-          decoration: const InputDecoration(
-            border: InputBorder.none,
-          ),
-          isExpanded: true,
-          hint: const Text(
-            'Select Your Gender',
-            style: TextStyle(fontSize: 16, color: Color(0xFF595959)),
-          ),
-          items: genderItems
-              .map((item) => DropdownMenuItem<String>(
-                    value: item,
-                    child: Text(
-                      item,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF595959),
-                      ),
-                    ),
-                  ))
-              .toList(),
-          validator: (value) {
-            if (value == null) {
-              return 'Please select gender.';
-            }
-            return null;
-          },
-          onChanged: (value) {
-            setState(() {
-              selectedGender = value;
-            });
-          },
-          onSaved: (value) {
-            selectedGender = value;
-          },
-          buttonStyleData: const ButtonStyleData(
-            padding: EdgeInsets.only(right: 8),
-          ),
-          iconStyleData: const IconStyleData(
-            icon: Icon(
-              Icons.arrow_drop_down,
-              color: Colors.black,
-            ),
-            iconSize: 24,
-          ),
-          dropdownStyleData: DropdownStyleData(
-            decoration: BoxDecoration(
-              color: const Color(0xFFDEDEDE),
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          menuItemStyleData: const MenuItemStyleData(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+    return Form(
+      key: _formKey,
+      child: AppStartMenu(children: [
+        Text(
+          'SIGN UP',
+          style: GoogleFonts.robotoCondensed(
+            fontSize: 60,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+            letterSpacing: .5,
           ),
         ),
-      ),
-      const SizedBox(height: 15),
-      buildTextField(
-        controller: _emailController,
-        hintText: "Email",
-      ),
-      const SizedBox(height: 15),
-      buildTextField(
-        controller: _passwordController,
-        hintText: "Password",
-        obscureText: true,
-      ),
-      const SizedBox(height: 15),
-      buildTextField(
-        controller: _confirmPasswordController,
-        hintText: "Confirm Password",
-        obscureText: true,
-      ),
-      const SizedBox(height: 25),
-      GestureDetector(
-        onTap: signUp,
-        child: Container(
-          width: 300,
-          padding: const EdgeInsets.all(13),
+        const SizedBox(height: 25),
+        Text(
+          'Welcome! Here you can sign up :-)',
+          style: GoogleFonts.robotoCondensed(
+            fontSize: 18,
+            color: Colors.black,
+          ),
+        ),
+        const SizedBox(height: 25),
+        buildTextField(
+          controller: _firstNameController,
+          hintText: "First Name",
+        ),
+        const SizedBox(height: 15),
+        buildTextField(
+          controller: _lastNameController,
+          hintText: "Last Name",
+        ),
+        const SizedBox(height: 15),
+        buildTextField(
+          controller: _ageController,
+          hintText: "Age",
+        ),
+        const SizedBox(height: 15),
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
-            color: Colors.lightBlueAccent[700],
+            boxShadow: [
+              BoxShadow(
+                color: Colors.indigo.withOpacity(0.5),
+                spreadRadius: 5,
+                blurRadius: 7,
+                offset: const Offset(0, 3),
+              ),
+            ],
+            border: Border.all(
+              color: Colors.black12,
+              width: 2,
+            ),
+            color: Colors.grey[300],
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Center(
-            child: Text(
-              "Sign up",
-              style: GoogleFonts.robotoCondensed(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+          child: DropdownButtonFormField2<String>(
+            decoration: const InputDecoration(
+              border: InputBorder.none,
+            ),
+            isExpanded: true,
+            hint: const Text(
+              'Select Your Gender',
+              style: TextStyle(fontSize: 16, color: Color(0xFF595959)),
+            ),
+            items: genderItems
+                .map((item) => DropdownMenuItem<String>(
+                      value: item,
+                      child: Text(
+                        item,
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: Color(0xFF595959),
+                        ),
+                      ),
+                    ))
+                .toList(),
+            validator: (value) {
+              if (value == null) {
+                return 'Please select gender.';
+              }
+              return null;
+            },
+            onChanged: (value) {
+              setState(() {
+                selectedGender = value;
+              });
+            },
+            onSaved: (value) {
+              selectedGender = value;
+            },
+            buttonStyleData: const ButtonStyleData(
+              padding: EdgeInsets.only(right: 8),
+            ),
+            iconStyleData: const IconStyleData(
+              icon: Icon(
+                Icons.arrow_drop_down,
+                color: Colors.black,
+              ),
+              iconSize: 24,
+            ),
+            dropdownStyleData: DropdownStyleData(
+              decoration: BoxDecoration(
+                color: const Color(0xFFDEDEDE),
+                borderRadius: BorderRadius.circular(12),
+              ),
+            ),
+            menuItemStyleData: const MenuItemStyleData(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+            ),
+          ),
+        ),
+        const SizedBox(height: 15),
+        buildTextField(
+          controller: _emailController,
+          hintText: "Email",
+        ),
+        const SizedBox(height: 15),
+        buildPasswordTextField(
+            controller: _passwordController,
+            hintText: "Password",
+            isObscured: _isObsecured,
+            toggleVisibility: toggleVisibility),
+        const SizedBox(height: 15),
+        buildPasswordTextField(
+            controller: _confirmPasswordController,
+            hintText: "Confirm Password",
+            isObscured: _isObsecured,
+            toggleVisibility: toggleVisibility),
+        const SizedBox(height: 25),
+        GestureDetector(
+          onTap: signUp,
+          child: Container(
+            width: 300,
+            padding: const EdgeInsets.all(13),
+            decoration: BoxDecoration(
+              color: Colors.lightBlueAccent[700],
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(
+              child: Text(
+                "Sign up",
+                style: GoogleFonts.robotoCondensed(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
               ),
             ),
           ),
         ),
-      ),
-      const SizedBox(height: 20),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            "Already a member? ",
-            style: GoogleFonts.robotoCondensed(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 15,
-            ),
-          ),
-          GestureDetector(
-            onTap: openLoginScreen,
-            child: Text(
-              "Sign in here",
+        const SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Already a member? ",
               style: GoogleFonts.robotoCondensed(
-                color: Colors.blue[700],
+                color: Colors.black,
                 fontWeight: FontWeight.bold,
+                fontSize: 15,
               ),
             ),
-          ),
-        ],
-      ),
-      const SizedBox(height: 40)
-    ]);
+            GestureDetector(
+              onTap: openLoginScreen,
+              child: Text(
+                "Sign in here",
+                style: GoogleFonts.robotoCondensed(
+                  color: Colors.blue[700],
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 40)
+      ]),
+    );
   }
 }

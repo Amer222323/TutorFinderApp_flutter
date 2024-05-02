@@ -1,8 +1,6 @@
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebaseconnations/Componet/snackbar.dart';
-import 'package:flutter/widgets.dart';
 
 class ProfilePrivate extends StatefulWidget {
   const ProfilePrivate({super.key});
@@ -23,7 +21,6 @@ class _ProfilePrivateState extends State<ProfilePrivate> {
   final _ageController = TextEditingController();
   final _numController = TextEditingController();
   final _qualificationController = TextEditingController();
-  final _prisePerHourController = TextEditingController();
   List<Subject> selectedSubjects = [];
   @override
   void dispose() {
