@@ -10,7 +10,6 @@ import 'package:firebaseconnations/screen/auth/signup_screen.dart';
 import 'package:firebaseconnations/screen/booking.dart';
 import 'package:firebaseconnations/screen/home_screen.dart';
 import 'package:firebaseconnations/screen/search.dart';
-import 'package:firebaseconnations/screen/subjekt_detalis.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
@@ -41,7 +40,6 @@ class MyApp extends StatelessWidget {
             const Login(), //TODO : text alert ? or pages
         "/bookingError": (context) =>
             const Login(), //TODO : text alert ? or pages
-        "/SubjecktDetalis": (context) => const SubjecktDetalis(),
         "/Search": (context) => const Search(),
         "/CreateSubject": (context) => const CreateSubject(),
         "/AllSubjects": (context) => const AllSubjects(),

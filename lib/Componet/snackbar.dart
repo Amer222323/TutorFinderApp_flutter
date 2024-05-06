@@ -13,7 +13,7 @@ void showCustomSnackBar(BuildContext context, String message) {
               width: 8), // Add some space between the icon and the text
           Text(
             message,
-            style: const TextStyle(color: Colors.white),
+            style: const TextStyle(color: Colors.white, fontSize: 20),
           ),
         ],
       ),

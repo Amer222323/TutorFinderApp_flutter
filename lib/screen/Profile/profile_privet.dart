@@ -1,8 +1,14 @@
+<<<<<<< HEAD
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import '../auth/login.dart';
 import 'create_subject.dart';
+=======
+import 'package:firebaseconnations/Componet/snackbar.dart';
+import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
+import 'package:flutter/material.dart';
+>>>>>>> 645b4cbc5e37f88cc8ec08f0b789dccf94c659fe
 
 class ProfilePrivate extends StatefulWidget {
   const ProfilePrivate({super.key});
@@ -22,7 +28,11 @@ class _ProfilePrivateState extends State<ProfilePrivate> {
   final _lastNameController = TextEditingController();
   final _ageController = TextEditingController();
   final _numController = TextEditingController();
+<<<<<<< HEAD
   final _prisePerHourController = TextEditingController();
+=======
+  final _qualificationController = TextEditingController();
+>>>>>>> 645b4cbc5e37f88cc8ec08f0b789dccf94c659fe
   List<Subject> selectedSubjects = [];
   bool _personalInfoExpanded = false;
   bool _selectSubjectsExpanded = false;

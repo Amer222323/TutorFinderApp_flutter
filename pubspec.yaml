@@ -41,6 +41,13 @@ dependencies:
   get: ^4.6.6
   cloud_firestore: ^4.17.0
   dropdown_button2: ^2.3.9
+<<<<<<< HEAD
+=======
+  indexed: ^0.0.8
+  firebase_storage: ^11.7.4
+  image_picker: ^1.1.1
+  path: ^1.9.0
+>>>>>>> 645b4cbc5e37f88cc8ec08f0b789dccf94c659fe
 dev_dependencies:
   flutter_test:
     sdk: flutter
