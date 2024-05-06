@@ -1,18 +1,13 @@
-<<<<<<< HEAD
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
 import 'package:flutter/material.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
-import '../auth/login.dart';
+
 import 'create_subject.dart';
-=======
-import 'package:firebaseconnations/Componet/snackbar.dart';
-import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
-import 'package:flutter/material.dart';
->>>>>>> 645b4cbc5e37f88cc8ec08f0b789dccf94c659fe
 
 class ProfilePrivate extends StatefulWidget {
   const ProfilePrivate({super.key});
-
   @override
   State<ProfilePrivate> createState() => _ProfilePrivateState();
 }
@@ -24,15 +19,33 @@ class Subject {
 }
 
 class _ProfilePrivateState extends State<ProfilePrivate> {
+  final _auth = FirebaseAuth.instance;
+  void getInfos() async {
+    final _email = _auth.currentUser!.email;
+    final _infosUser = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: _email)
+        .get();
+    // TODO  qusai -------------------- set a value for controller
+    _firstNameController.text = _infosUser.docs.first.data()['first name'];
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    setState(() {
+      print(_auth.currentUser!.email);
+      getInfos();
+    });
+  }
+
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _ageController = TextEditingController();
   final _numController = TextEditingController();
-<<<<<<< HEAD
   final _prisePerHourController = TextEditingController();
-=======
-  final _qualificationController = TextEditingController();
->>>>>>> 645b4cbc5e37f88cc8ec08f0b789dccf94c659fe
+
   List<Subject> selectedSubjects = [];
   bool _personalInfoExpanded = false;
   bool _selectSubjectsExpanded = false;
@@ -286,11 +299,8 @@ class _ProfilePrivateState extends State<ProfilePrivate> {
         const SizedBox(height: 150),
         ElevatedButton(
           onPressed: () {
-            // Navigate to the login page
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const Login()),
-            );
+            _auth.signOut();
+            Navigator.pushNamed(context, "/");
           },
           child: const Text('Logout'),
         ),

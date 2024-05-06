@@ -10,8 +10,6 @@ class UploadImage extends StatefulWidget {
 
 class _UploadImageState extends State<UploadImage> {
   var image = 'images/nour.png';
-
-  // TODO upload image to the storage firebase
   @override
   Widget build(BuildContext context) {
     return SizedBox(

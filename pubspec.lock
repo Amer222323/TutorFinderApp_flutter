@@ -288,8 +288,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
-<<<<<<< HEAD
-=======
   image_picker:
     dependency: "direct main"
     description:
@@ -362,7 +360,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.8"
->>>>>>> 645b4cbc5e37f88cc8ec08f0b789dccf94c659fe
   leak_tracker:
     dependency: transitive
     description:
@@ -419,7 +416,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
-<<<<<<< HEAD
+  mime:
+    dependency: transitive
+    description:
+      name: mime
+      sha256: "2e123074287cc9fd6c09de8336dae606d1ddb88d9ac47358826db698c176a1f2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.5"
   omni_datetime_picker:
     dependency: "direct main"
     description:
@@ -428,17 +432,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
-  path:
-=======
-  mime:
->>>>>>> 645b4cbc5e37f88cc8ec08f0b789dccf94c659fe
-    dependency: transitive
-    description:
-      name: mime
-      sha256: "2e123074287cc9fd6c09de8336dae606d1ddb88d9ac47358826db698c176a1f2"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.5"
   path:
     dependency: "direct main"
     description:
