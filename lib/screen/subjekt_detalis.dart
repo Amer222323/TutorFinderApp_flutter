@@ -1,16 +1,30 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
+import 'package:firebaseconnations/Componet/action_btn.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
+import 'package:firebaseconnations/screen/booking.dart';
 import 'package:flutter/material.dart';
 
-class SubjecktDetalis extends StatefulWidget {
-  const SubjecktDetalis({super.key});
+class SubjectDetails extends StatefulWidget {
+  // final _fireStore = FirebaseFirestore.instance;
+  const SubjectDetails(this.subId, {super.key});
+  final subId;
 
   @override
-  State<SubjecktDetalis> createState() => _SubjecktDetalisState();
+  State<SubjectDetails> createState() => _SubjectDetailsState();
 }
 
-class _SubjecktDetalisState extends State<SubjecktDetalis> {
-  void onPress() {}
+class _SubjectDetailsState extends State<SubjectDetails> {
+  late var dataSub;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    dataSub = widget.subId;
+    print(widget.subId);
+  }
 
+  late String imgPath = widget.subId['imgPath'];
   @override
   Widget build(BuildContext context) {
     return AppStartMenu(
@@ -23,13 +37,11 @@ class _SubjecktDetalisState extends State<SubjecktDetalis> {
           padding: const EdgeInsets.all(23),
           child: Column(
             children: [
-              const CircleAvatar(
-                radius: 100,
-                backgroundImage: AssetImage("images/nour.png"),
-              ),
-              const Text(
-                "Name/Vorname",
-                style: TextStyle(fontFamily: 'MontserratBold', fontSize: 24),
+              CircleAvatar(radius: 100, backgroundImage: NetworkImage(imgPath)),
+              Text(
+                widget.subId['subjectsName'],
+                style:
+                    const TextStyle(fontFamily: 'MontserratBold', fontSize: 24),
               ),
               const Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -41,9 +53,9 @@ class _SubjecktDetalisState extends State<SubjecktDetalis> {
                   Image(image: AssetImage("images/star.png")),
                 ],
               ),
-              const Text(
-                "@User",
-                style: TextStyle(
+              Text(
+                "${widget.subId['Tutor']}",
+                style: const TextStyle(
                     fontFamily: 'MontserratBold',
                     fontSize: 24,
                     color: Colors.black26),
@@ -55,38 +67,19 @@ class _SubjecktDetalisState extends State<SubjecktDetalis> {
                   color: Colors.black12,
                 ),
               ),
-              const Padding(
-                  padding: EdgeInsets.all(32),
+              Padding(
+                  padding: const EdgeInsets.all(32),
                   child: Text(
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontFamily: 'Montserratitalic',
                           fontSize: 17,
                           color: Colors.black),
-                      "sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor ")),
-              SizedBox(
-                width: 200, // Set your desired width
-                height: 50, //
-                child: FloatingActionButton(
-                  onPressed: onPress,
-                  backgroundColor: Colors.blueAccent,
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Bookin neu",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.arrow_right,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                ),
-              )
+                      '${widget.subId['description']}')),
+              ActionBtn(() {
+                // TODO Booking neu Page with id
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => const Booking()));
+              }, "Booking neu", Icons.arrow_right, null),
             ],
           ),
         )

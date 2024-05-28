@@ -1,5 +1,8 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+/*import 'package:dropdown_button2/dropdown_button2.dart';*/
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebaseconnations/Componet/snackbar.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
@@ -20,8 +23,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _ageController = TextEditingController();
-  final List<String> genderItems = ['Male', 'Female'];
-  String? selectedGender;
+  final List<String> roleItems = ['Student', 'Tutor', 'Admin'];
+  String? selectedRole;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -36,8 +39,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
           _firstNameController.text.trim(),
           _lastNameController.text.trim(),
           _emailController.text.trim(),
-          int.parse(_ageController.text.trim()),
-          selectedGender,
+          /* int.parse(_ageController.text.trim()),*/
+          selectedRole,
         );
         // ignore: use_build_context_synchronously
         Navigator.of(context).pushNamed("/");
@@ -51,15 +54,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     String firstName,
     String lastName,
     String email,
-    int age,
-    String? gender,
+    /*int age,*/
+    String? role,
   ) async {
     await FirebaseFirestore.instance.collection("users").add({
       'first name': firstName,
       'last name': lastName,
       'email': email,
-      'age': age,
-      'gender': gender,
+      /*'age': age,*/
+      'role': role,
     });
   }
 
@@ -153,7 +156,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
         const SizedBox(height: 15),
         Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -176,10 +179,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
             ),
             isExpanded: true,
             hint: const Text(
-              'Select Your Gender',
+              'Select Your Role',
               style: TextStyle(fontSize: 16, color: Color(0xFF595959)),
             ),
-            items: genderItems
+            items: roleItems
                 .map((item) => DropdownMenuItem<String>(
                       value: item,
                       child: Text(
@@ -193,17 +196,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 .toList(),
             validator: (value) {
               if (value == null) {
-                return 'Please select gender.';
+                return 'Please select Role.';
               }
               return null;
             },
             onChanged: (value) {
               setState(() {
-                selectedGender = value;
+                selectedRole = value;
               });
             },
             onSaved: (value) {
-              selectedGender = value;
+              selectedRole = value;
             },
             buttonStyleData: const ButtonStyleData(
               padding: EdgeInsets.only(right: 8),

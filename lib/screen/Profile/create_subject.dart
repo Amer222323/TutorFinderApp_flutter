@@ -1,5 +1,14 @@
+import 'dart:io';
+
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:firebaseconnations/Componet/action_btn.dart';
+import 'package:firebaseconnations/Componet/constants.dart';
+import 'package:firebaseconnations/Componet/snackbar.dart';
+import 'package:firebaseconnations/Componet/upload_image.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
+import 'package:firebaseconnations/Model/subject_model.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CreateSubject extends StatefulWidget {
   const CreateSubject({super.key});
@@ -9,50 +18,97 @@ class CreateSubject extends StatefulWidget {
 }
 
 class _CreateSubjectState extends State<CreateSubject> {
-  void onPress() {}
+  final nameController = TextEditingController();
+  final hourlyController = TextEditingController();
+  final textController = TextEditingController();
+  final Subjects _subjects = Subjects();
+
+  final _storage = FirebaseStorage.instance;
+  File? _photo;
+  final ImagePicker _picker = ImagePicker();
+  late var destination;
+  Future imgFromGallery() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _photo = File(pickedFile.path);
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  // Define a function as async if you are using await inside it.
+
+  Future uploadFile() async {
+    if (_photo == null) return;
+    destination = DateTime.now().millisecond.toString();
+    try {
+      final ref = _storage.ref().child('images');
+      final refImg = ref.child(destination);
+      await refImg.putFile(_photo!);
+      destination = await refImg.getDownloadURL();
+      print(destination);
+    } catch (e) {
+      print('error occured');
+    }
+  }
+
+  late String subjectsName;
+  late String hourlyWage;
+  late String description = "";
+
   @override
   Widget build(BuildContext context) {
     return AppStartMenu(
       children: [
-        const SizedBox(
-          height: 110,
-        ),
         Container(
           width: double.infinity,
           color: Colors.white,
           padding: const EdgeInsets.all(32),
           child: Column(
             children: [
-              const SizedBox(
+              UploadImage(() async {
+                imgFromGallery();
+              }, _photo),
+              SizedBox(
+                  height: 100,
+                  child: TextField(
+                      controller: nameController,
+                      onChanged: (val) => {
+                            setState(() {
+                              subjectsName = val;
+                            })
+                          },
+                      decoration: kTextFildDecoration.copyWith(
+                          hintText: "Enter your SubjectsName",
+                          icon: const Icon(Icons.subject)))),
+              SizedBox(
+                  height: 100,
+                  child: TextField(
+                      controller: hourlyController,
+                      keyboardType: TextInputType.number,
+                      onChanged: (val) => {
+                            setState(() {
+                              hourlyWage = val;
+                            })
+                          },
+                      decoration: kTextFildDecoration.copyWith(
+                          hintText: "Enter your hourly Wage",
+                          icon: const Icon(Icons.euro)))),
+              SizedBox(
                 height: 100,
                 child: TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Hourly fees',
-                        icon: Icon(Icons.euro))),
-              ),
-              const SizedBox(
-                height: 100,
-                child: TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Hourly fees',
-                        icon: Icon(Icons.euro))),
-              ),
-              const SizedBox(
-                height: 100,
-                child: TextField(
-                    decoration: InputDecoration(
-                        border: OutlineInputBorder(),
-                        hintText: 'Hourly fees',
-                        icon: Icon(Icons.image))),
-              ),
-              const SizedBox(
-                height: 100,
-                child: TextField(
+                  controller: textController,
+                  onChanged: (val) => {
+                    setState(() {
+                      description = val;
+                    })
+                  },
                   keyboardType: TextInputType.multiline,
                   maxLines: 4,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       hintText: "Subject description",
                       focusedBorder: OutlineInputBorder(
                           borderSide:
@@ -65,26 +121,22 @@ class _CreateSubjectState extends State<CreateSubject> {
               SizedBox(
                 height: 50,
                 width: 200,
-                child: FloatingActionButton(
-                  onPressed: onPress,
-                  backgroundColor: Colors.blue,
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Bookin neu",
-                        style: TextStyle(color: Colors.white, fontSize: 20),
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Icon(
-                        Icons.arrow_right,
-                        color: Colors.white,
-                      ),
-                    ],
-                  ),
-                ),
+                child: ActionBtn(() {
+                  if (description == "" ||
+                      hourlyWage == "" ||
+                      subjectsName == "") {
+                    showCustomSnackBar(
+                        context, "Please fill in all the text fields.");
+                  } else {
+                    uploadFile();
+
+                    _subjects.createSubject(
+                        subjectsName, hourlyWage, description, destination);
+                    textController.clear();
+                    hourlyController.clear();
+                    nameController.clear();
+                  }
+                }, "Create", Icons.arrow_right, null),
               )
             ],
           ),

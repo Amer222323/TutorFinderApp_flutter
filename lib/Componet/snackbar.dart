@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 void showCustomSnackBar(BuildContext context, String message) {
@@ -10,10 +11,12 @@ void showCustomSnackBar(BuildContext context, String message) {
             color: Colors.white,
           ),
           const SizedBox(
-              width: 8), // Add some space between the icon and the text
-          Text(
-            message,
-            style: const TextStyle(color: Colors.white),
+              width: 15), // Add some space between the icon and the text
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+            ),
           ),
         ],
       ),
@@ -26,6 +29,9 @@ void showCustomSnackBar(BuildContext context, String message) {
       ),
     ),
   );
+
+  final player = AudioPlayer();
+  player.play(AssetSource('note1.wav'));
 }
 
 Widget buildTextField({
@@ -113,4 +119,13 @@ Widget buildPasswordTextField(
       ),
     ),
   );
+}
+
+List<Widget> buildColumnChildrenWithPadding(List<Widget> children) {
+  return children.map((child) {
+    return Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: child,
+    );
+  }).toList();
 }

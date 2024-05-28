@@ -99,6 +99,12 @@ class DrawerSideBar extends StatelessWidget {
               Navigator.pushNamed(context, "/AllSubjects");
             },
           ),
+          ListTile(
+            title: const Text('Change Password'),
+            onTap: () {
+              Navigator.pushNamed(context, "/AllSubjects");
+            },
+          ),
         ],
       ),
     );

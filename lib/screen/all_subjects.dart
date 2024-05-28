@@ -1,235 +1,83 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebaseconnations/Componet/subject_card.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
+import 'package:firebaseconnations/screen/subjekt_detalis.dart';
 import 'package:flutter/material.dart';
 
-class AllSubjects extends StatelessWidget {
-  const AllSubjects({super.key});
+class AllSubjects extends StatefulWidget {
+  const AllSubjects(this.subject, {super.key});
+  final String? subject;
+
+  @override
+  State<AllSubjects> createState() => _AllSubjectsState();
+}
+
+class _AllSubjectsState extends State<AllSubjects> {
+  final _fireStore = FirebaseFirestore.instance;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    print(widget.subject);
+  }
 
   @override
   Widget build(BuildContext context) {
     return AppStartMenu(
       children: [
-        const SizedBox(
-          height: 30,
-        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            GestureDetector(
-              onTap: () {
-                print("object");
-              },
-              child: Card(
-                borderOnForeground: true,
-                shadowColor: Colors.black,
-                surfaceTintColor: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(5),
-                  child: Container(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Card(
-                          shape: CircleBorder(),
-                          child: Image(
-                            image: AssetImage("images/nour.png"),
-                          ),
-                        ),
-                        const Column(
-                          children: [
-                            Text(
-                              "Name / Vorname",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w900),
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "10€",
-                                  style: TextStyle(
-                                      color: Colors.green, fontSize: 18),
-                                ),
-                                Text(
-                                  "/Hour",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        Container(
-                          width: 70,
-                          height: 70,
-                          child: const Center(
-                              child: Text(
-                            "2",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.white),
-                          )),
-                          decoration: const BoxDecoration(
-                            color: Colors.transparent,
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  'images/star.png'), // Provide the path to your image asset
-                              fit: BoxFit
-                                  .cover, // You can adjust the fit as needed
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                print("object");
-              },
-              child: Card(
-                borderOnForeground: true,
-                shadowColor: Colors.black,
-                surfaceTintColor: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Container(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Card(
-                          shape: CircleBorder(),
-                          child: Image(
-                            image: AssetImage("images/nour.png"),
-                          ),
-                        ),
-                        const Column(
-                          children: [
-                            Text(
-                              "Name / Vorname",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w900),
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "45€",
-                                  style: TextStyle(
-                                      color: Colors.green, fontSize: 18),
-                                ),
-                                Text(
-                                  "/Hour",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        Container(
-                          width: 70,
-                          height: 70,
-                          child: const Center(
-                              child: Text(
-                            "5",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.white),
-                          )),
-                          decoration: const BoxDecoration(
-                            color: Colors.transparent,
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  'images/starOn.png'), // Provide the path to your image asset
-                              fit: BoxFit
-                                  .cover, // You can adjust the fit as needed
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                print("object");
-              },
-              child: Card(
-                borderOnForeground: true,
-                shadowColor: Colors.black,
-                surfaceTintColor: Colors.white,
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Container(
-                    width: double.infinity,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        const Card(
-                          shape: CircleBorder(),
-                          child: Image(
-                            image: AssetImage("images/nour.png"),
-                          ),
-                        ),
-                        const Column(
-                          children: [
-                            Text(
-                              "Name / Vorname",
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w900),
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  "30€",
-                                  style: TextStyle(
-                                      color: Colors.green, fontSize: 18),
-                                ),
-                                Text(
-                                  "/Hour",
-                                  style: TextStyle(
-                                      color: Colors.black, fontSize: 18),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        Container(
-                          width: 70,
-                          height: 70,
-                          child: const Center(
-                              child: Text(
-                            "5",
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w900,
-                                color: Colors.white),
-                          )),
-                          decoration: const BoxDecoration(
-                            color: Colors.transparent,
-                            image: DecorationImage(
-                              image: AssetImage(
-                                  'images/starOn.png'), // Provide the path to your image asset
-                              fit: BoxFit
-                                  .cover, // You can adjust the fit as needed
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            StreamSubjects(fireStore: _fireStore),
           ],
-        )
+        ),
       ],
+    );
+  }
+}
+
+class StreamSubjects extends StatelessWidget {
+  const StreamSubjects({
+    super.key,
+    required FirebaseFirestore fireStore,
+  }) : _fireStore = fireStore;
+
+  final FirebaseFirestore _fireStore;
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder(
+      stream: _fireStore.collection("Subjects").snapshots(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        }
+        if (!snapshot.hasData) {
+          return const Center(
+            child: CircularProgressIndicator(
+              backgroundColor: Colors.lightBlueAccent,
+            ),
+          );
+        }
+        final subjects = snapshot.data;
+        List<SubjectCard> subjectsCard = [];
+        subjects?.docs.forEach((doc) {
+          final sub = SubjectCard(
+              doc['subjectsName'],
+              doc['hourlyWage'],
+              doc['imgPath'],
+              4,
+              () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => SubjectDetails(doc.data()))));
+          // print(doc.data());
+          subjectsCard.add(sub);
+        });
+        return Column(
+          children: subjectsCard,
+        );
+      },
     );
   }
 }
