@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 
-import '../../screen/Profile/profile_public.dart';
-
 class TutorsListSub extends StatelessWidget {
   const TutorsListSub({super.key, required this.tutor});
   final Tutor tutor;

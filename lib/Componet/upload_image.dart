@@ -9,6 +9,7 @@ class UploadImage extends StatefulWidget {
 }
 
 class _UploadImageState extends State<UploadImage> {
+  var image = 'images/nour.png';
   @override
   Widget build(BuildContext context) {
     return SizedBox(
