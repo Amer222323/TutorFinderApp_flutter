@@ -23,7 +23,7 @@ class AppStartMenu extends StatelessWidget {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        drawer: const DrawerSideBar(),
+        drawer: DrawerSideBar(),
         appBar: AppBar(
           backgroundColor: Colors.transparent,
         ),

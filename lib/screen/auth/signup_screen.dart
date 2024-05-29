@@ -62,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       'last name': lastName,
       'email': email,
       /*'age': age,*/
-      'role': role,
+      'role': 'user',
     });
   }
 
