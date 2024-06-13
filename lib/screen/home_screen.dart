@@ -1,13 +1,13 @@
 import 'dart:math';
 
-import 'package:firebaseconnations/main.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebaseconnations/Model/subject_model.dart';
+import 'package:firebaseconnations/screen/searchedSubjekt.dart';
 import 'package:firebaseconnations/widgets/Avatars/subject_avatar_with_text.dart';
+import 'package:firebaseconnations/widgets/list_Sub/tutors_list_sub.dart';
 import 'package:firebaseconnations/widgets/title/section_title.dart';
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-
-import '../widgets/card/bookings_preview_card.dart';
-import '../widgets/list_Sub/tutors_list_sub.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -30,6 +30,29 @@ class _HomeViewState extends State<HomeView> {
     Navigator.pushNamed(context, '/ProfilePrivet');
   }
 
+  final _model = Subjects();
+  var _userData;
+  String? fname, lname;
+  getData() async {
+    try {
+      var test = await _model.getUserData();
+      setState(() {
+        _userData = test;
+        fname = _userData['first name'];
+        lname = _userData['last name'];
+      });
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -49,31 +72,11 @@ class _HomeViewState extends State<HomeView> {
             GestureDetector(
                 onTap: openSignupScreen,
                 child: Text(
-                  "Amer Al Aloush",
+                  "$fname $lname",
                   style: textTheme.headlineSmall!
                       .copyWith(fontWeight: FontWeight.bold),
                 )),
             const SizedBox(height: 4.0),
-            /* Row(
-              children: [
-                Icon(
-                  Icons.location_on,
-                  color: colorScheme.secondary,
-                ),
-                const SizedBox(width: 4.0),
-                Text(
-                  "Dubai, UAE",
-                  style: textTheme.bodyMedium!.copyWith(
-                    color: colorScheme.secondary,
-                  ),
-                ),
-                const SizedBox(width: 4.0),
-                Icon(
-                  Icons.expand_more,
-                  color: colorScheme.secondary,
-                ),
-              ],
-            )*/
           ],
         ),
         actions: [
@@ -81,36 +84,12 @@ class _HomeViewState extends State<HomeView> {
               onPressed: () {}, icon: const Icon(Icons.notifications_outlined)),
           const SizedBox(width: 8.0),
         ],
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(64.0),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextFormField(
-              decoration: InputDecoration(
-                hintText: 'Search for Tutors...',
-                prefixIcon: const Icon(Icons.search),
-                suffixIcon: Container(
-                  margin: const EdgeInsets.all(8.0),
-                  padding: const EdgeInsets.all(8.0),
-                  decoration: BoxDecoration(
-                    color: colorScheme.onSurfaceVariant,
-                    borderRadius: BorderRadius.circular(8.0),
-                  ),
-                  child: Icon(Icons.filter_alt_outlined,
-                      color: colorScheme.surfaceVariant),
-                ),
-              ),
-            ),
-          ),
-        ),
       ),
       body: const SingleChildScrollView(
         padding: EdgeInsets.all(8.0),
         child: Column(
           children: [
             _TutorCategories(),
-            SizedBox(height: 24.0),
-            _MyBookings(),
             SizedBox(height: 24.0),
             _TopTutors(),
           ],
@@ -140,30 +119,19 @@ class _TutorCategories extends StatelessWidget {
               .map(
                 (category) => Expanded(
                   child: SubjectAvatarWithTextLabel(
-                      icon: category.icon, label: category.name),
+                      onTap: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SearchedSubjekts(
+                                    subject: category.name,
+                                  ))),
+                      icon: category.icon,
+                      label: category.name),
                 ),
               )
               .toList(),
         ),
         //
-      ],
-    );
-  }
-}
-
-class _MyBookings extends StatelessWidget {
-  const _MyBookings();
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SectionTitle(
-          title: 'My Bookings',
-          action: "See all",
-          onPressed: () {},
-        ),
-        const BookingsPreviewCard(),
       ],
     );
   }
@@ -178,17 +146,28 @@ class _TopTutors extends StatefulWidget {
 
 class _TopTutorsState extends State<_TopTutors> {
   List<Tutor> _tutor = [];
-
+  final _model = Subjects();
+  var _test;
+  bool isLoading = false;
   final rnd = Random();
+  getData() async {
+    _test = await _model.getTutors();
+    print(_test);
+  }
+
   @override
   void initState() {
-    _loadTutors();
+    setState(() {
+      _loadTutors();
+      getData();
+    });
+
     super.initState();
   }
 
   _loadTutors() async {
     //ToDo: Fetch the list of Tutors
-    final tutor = await tutorRepository.fetchTutors();
+    final tutor = await _test;
     setState(() {
       _tutor = tutor;
     });
@@ -207,19 +186,37 @@ class _TopTutorsState extends State<_TopTutors> {
         const SizedBox(
           height: 16.0,
         ),
-        ListView.separated(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          separatorBuilder: (context, index) {
-            return Divider(
-              height: 24.0,
-              color: colorScheme.surfaceVariant,
+        StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection("users")
+              .where("role", isEqualTo: 'Tutor')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            }
+            if (!snapshot.hasData) {
+              return const Center(
+                child: CircularProgressIndicator(
+                  backgroundColor: Colors.lightBlueAccent,
+                ),
+              );
+            }
+            final Tutor = snapshot.data;
+            List<TutorsListSub> TutorCard = [];
+            Tutor?.docs.forEach((doc) {
+              final sub = TutorsListSub(
+                  doc['first name'],
+                  doc['last name'],
+                  doc['profileImageUrl'],
+                  doc['rating'].toStringAsFixed(1),
+                  doc['email']);
+
+              TutorCard.add(sub);
+            });
+            return Column(
+              children: TutorCard,
             );
-          },
-          itemCount: _tutor.length,
-          itemBuilder: (context, index) {
-            final tutor = _tutor[index];
-            return TutorsListSub(tutor: tutor);
           },
         )
       ],

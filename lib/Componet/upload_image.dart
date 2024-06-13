@@ -10,6 +10,23 @@ class UploadImage extends StatefulWidget {
 
 class _UploadImageState extends State<UploadImage> {
   var image = 'images/nour.png';
+
+  photo() {
+    if (widget.imgPath is String) {
+      return CircleAvatar(
+        backgroundImage: NetworkImage(widget.imgPath),
+      );
+    } else if (widget.imgPath != null) {
+      return CircleAvatar(
+        backgroundImage: FileImage(widget.imgPath),
+      );
+    } else {
+      return CircleAvatar(
+        backgroundImage: AssetImage('images/nour.png'),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -27,27 +44,17 @@ class _UploadImageState extends State<UploadImage> {
           child: Stack(
             children: [
               Positioned(
-                child: SizedBox(
-                  height: 150,
-                  width: 150,
-                  child: widget.imgPath != null
-                      ? CircleAvatar(
-                          backgroundImage: FileImage(widget.imgPath),
-                        )
-                      : const CircleAvatar(
-                          backgroundImage: AssetImage('images/nour.png'),
-                        ),
-                ),
+                child: SizedBox(height: 150, width: 150, child: photo()),
               ),
               const Positioned(
-                top: 88,
-                left: 70,
-                child: SizedBox(
-                  height: 100,
-                  width: 100,
+                top: 120,
+                left: 90,
+                child: CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 18.0,
                   child: Icon(
-                    Icons.upload_file,
-                    size: 50,
+                    Icons.camera_alt,
+                    size: 20.0,
                     color: Colors.grey,
                   ),
                 ),

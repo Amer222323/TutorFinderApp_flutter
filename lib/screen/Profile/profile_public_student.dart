@@ -1,17 +1,49 @@
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
+import 'package:firebaseconnations/Model/subject_model.dart';
 import 'package:flutter/material.dart';
 
-import '../auth/login.dart';
-
-class ProfilePublicStudent extends StatelessWidget {
+class ProfilePublicStudent extends StatefulWidget {
   const ProfilePublicStudent({super.key});
+
+  @override
+  State<ProfilePublicStudent> createState() => _ProfilePublicStudentState();
+}
+
+class _ProfilePublicStudentState extends State<ProfilePublicStudent> {
+  final _model = Subjects();
+  var _userData;
+  String? fname, lname, image;
+  String? age;
+
+  getData() async {
+    try {
+      var test = await _model.getUserData();
+      setState(() {
+        _userData = test;
+        fname = _userData['first name'];
+        lname = _userData['last name'];
+        age = _userData['age'];
+        image = _userData['profileImageUrl'];
+      });
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
     return AppStartMenu(
       children: [
-        const CircleAvatar(
-          backgroundImage: AssetImage("images/nour.png"),
+        CircleAvatar(
+          backgroundImage: image != null
+              ? NetworkImage(image!)
+              : const AssetImage("images/nour.png") as ImageProvider,
           radius: 65.0,
         ),
         const SizedBox(height: 25),
@@ -33,26 +65,14 @@ class ProfilePublicStudent extends StatelessWidget {
           children: [
             Column(
               children: [
-                buildReadOnlyField("First Name", "John"),
-                buildReadOnlyField("Last Name", "Doe"),
-                buildReadOnlyField("Age", "30"),
-                buildReadOnlyField("Phone Number", "+1234567890"),
-                buildReadOnlyField("Price", "\$50"),
+                buildReadOnlyField("First Name", fname ?? "Loading..."),
+                buildReadOnlyField("Last Name", lname ?? "Loading..."),
+                buildReadOnlyField("Age", age?.toString() ?? "Loading..."),
               ],
             ),
           ],
         ),
         const SizedBox(height: 150),
-        ElevatedButton(
-          onPressed: () {
-            // Navigate to the login page
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const Login()),
-            );
-          },
-          child: const Text('Logout'),
-        ),
       ],
     );
   }

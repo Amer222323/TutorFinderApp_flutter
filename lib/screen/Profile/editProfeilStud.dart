@@ -3,18 +3,16 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebaseconnations/Componet/snackbar.dart';
-import 'package:firebaseconnations/Componet/subject_card.dart';
 import 'package:firebaseconnations/Componet/upload_image.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
 import 'package:firebaseconnations/Model/subject_model.dart';
-import 'package:firebaseconnations/screen/Profile/updateSubject.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ProfilePrivate extends StatefulWidget {
-  const ProfilePrivate({super.key});
+class ProfilePrivateStudent extends StatefulWidget {
+  const ProfilePrivateStudent({super.key});
   @override
-  State<ProfilePrivate> createState() => _ProfilePrivateState();
+  State<ProfilePrivateStudent> createState() => _ProfilePrivateStudentState();
 }
 
 class Subject {
@@ -23,7 +21,7 @@ class Subject {
   Subject({required this.name});
 }
 
-class _ProfilePrivateState extends State<ProfilePrivate> {
+class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
   final _auth = FirebaseAuth.instance;
   final _model = Subjects();
   var _firstNameController = TextEditingController();
@@ -128,7 +126,6 @@ class _ProfilePrivateState extends State<ProfilePrivate> {
       _lastNameController.text = _infosUser['last name'] ?? '';
       _ageController.text = _infosUser['age'].toString() ?? '';
       _numController.text = _infosUser['phoneNumber'] ?? '';
-      _biographyController.text = _infosUser['bio'] ?? '';
       profileImageUrl = _infosUser['profileImageUrl'];
       email = _infosUser['email'];
     });
@@ -220,20 +217,7 @@ class _ProfilePrivateState extends State<ProfilePrivate> {
                 //   controller: _prisePerHourController,
                 //   hintText: "Enter Your Price",
                 // ),
-                SizedBox(
-                  height: 100,
-                  child: TextField(
-                    controller: _biographyController,
-                    onChanged: (val) => {setState(() {})},
-                    keyboardType: TextInputType.multiline,
-                    maxLines: 4,
-                    decoration: const InputDecoration(
-                        hintText: "Biography description",
-                        focusedBorder: OutlineInputBorder(
-                            borderSide:
-                                BorderSide(width: 1, color: Colors.redAccent))),
-                  ),
-                ),
+
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
@@ -258,75 +242,6 @@ class _ProfilePrivateState extends State<ProfilePrivate> {
                   child: const Text('Save'),
                 ),
               ],
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        ExpansionTile(
-          initiallyExpanded: _selectSubjectsExpanded,
-          onExpansionChanged: (expanded) {
-            setState(() {
-              _selectSubjectsExpanded = expanded;
-            });
-          },
-          title: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Select Subjects",
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
-          children: [
-            Container(
-              child: StreamBuilder(
-                stream: _model.getSubjectById(email),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Text('Error: ${snapshot.error}');
-                  }
-                  if (!snapshot.hasData) {
-                    return const Center(
-                      child: CircularProgressIndicator(
-                        backgroundColor: Colors.lightBlueAccent,
-                      ),
-                    );
-                  }
-                  final subjects = snapshot.data;
-                  List<SubjectCard> subjectsCard = [];
-                  subjects?.docs.forEach((doc) {
-                    final sub = SubjectCard(
-                        doc['subjectsName'],
-                        doc['hourlyWage'],
-                        doc['imgPath'],
-                        4,
-                        () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => updateSubject(
-                                      data: doc.data(),
-                                      id: doc.id,
-                                    ))));
-                    // print(doc.data());
-                    subjectsCard.add(sub);
-                  });
-                  return Column(
-                    children: subjectsCard,
-                  );
-                },
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, "/CreateSubject");
-              },
-              child: const Text('Create Subject'),
             ),
           ],
         ),
@@ -394,14 +309,6 @@ class _ProfilePrivateState extends State<ProfilePrivate> {
               height: 20,
             ),
           ],
-        ),
-        const SizedBox(height: 150),
-        ElevatedButton(
-          onPressed: () {
-            _auth.signOut();
-            Navigator.pushNamed(context, "/");
-          },
-          child: const Text('Logout'),
         ),
       ],
     );

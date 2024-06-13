@@ -1,10 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebaseconnations/repositories/tutor_repository.dart';
 import 'package:firebaseconnations/screen/Profile/create_subject.dart';
-import 'package:firebaseconnations/screen/Profile/profile_privet.dart';
-import 'package:firebaseconnations/screen/Profile/profile_public.dart';
-import 'package:firebaseconnations/screen/Profile/profile_public_student.dart';
 import 'package:firebaseconnations/screen/all_subjects.dart';
+import 'package:firebaseconnations/screen/auth/Profile.dart';
+import 'package:firebaseconnations/screen/auth/ProfilePrivates.dart';
 import 'package:firebaseconnations/screen/auth/auth.dart';
 import 'package:firebaseconnations/screen/auth/login.dart';
 import 'package:firebaseconnations/screen/auth/signup_screen.dart';
@@ -13,8 +12,6 @@ import 'package:firebaseconnations/screen/search.dart';
 import 'package:firebaseconnations/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
-
-import 'Appointment/book_appointment_view.dart';
 
 final dbClient = DbClient();
 final tutorRepository = TutorRepository(/*dbClient: dbClient*/);
@@ -35,20 +32,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: const AppTheme().themeData,
       routes: {
+        // "/": (context) => const Auth(),
         "/": (context) => const Auth(),
         "/Login": (context) => const Login(), //TODO change a class to auth()
         "/signupScreen": (context) => const SignUpScreen(),
         "/home": (context) => const Home(),
-        "/ProfilePublicStudent": (context) => const ProfilePublicStudent(),
-        "/ProfilePublic": (context) => const ProfilePublic(
-              tutorId: "id",
-            ),
-        "/ProfilePrivet": (context) => const ProfilePrivate(),
-        "/booking": (context) => BookAppointmentView(),
-        "/bookingSuccessful ": (context) =>
-            const Login(), //TODO : text alert ? or pages
-        "/bookingError": (context) =>
-            const Login(), //TODO : text alert ? or pages
+        // "/ProfilePublicStudent": (context) => const ProfilePublicStudent(),
+        "/ProfilePublic": (context) => const Profile(),
+
+        "/ProfilePrivet": (context) => const ProfilePrivates(),
         "/Search": (context) => const Search(),
         "/CreateSubject": (context) => const CreateSubject(),
         "/AllSubjects": (context) => const AllSubjects('math'),

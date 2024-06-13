@@ -1,24 +1,29 @@
+import 'package:firebaseconnations/screen/Profile/ProfileTutorUS.dart';
 import 'package:flutter/material.dart';
-import 'package:models/models.dart';
 
 class TutorsListSub extends StatelessWidget {
-  const TutorsListSub({super.key, required this.tutor});
-  final Tutor tutor;
+  TutorsListSub(
+      this.fname, this.lname, this.phoneNumber, this.rating, this.email);
+  String fname, lname, phoneNumber, email;
+  var rating;
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
     return ListTile(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(context,
+            MaterialPageRoute(builder: (context) => ProfileTutorUS(email)));
+      },
       contentPadding: EdgeInsets.zero,
       leading: CircleAvatar(
         radius: 30.0,
         backgroundColor: colorScheme.background,
-        backgroundImage: NetworkImage(tutor.profileImageUrl),
+        backgroundImage: NetworkImage(phoneNumber),
       ),
       title: Text(
-        tutor.name,
+        '$fname $lname',
         style: textTheme.bodyLarge!.copyWith(fontWeight: FontWeight.bold),
       ),
       subtitle: Column(
@@ -26,12 +31,6 @@ class TutorsListSub extends StatelessWidget {
         children: [
           const SizedBox(
             height: 8.0,
-          ),
-          Text(
-            tutor.category,
-            style: textTheme.bodyMedium!.copyWith(
-              color: colorScheme.secondary,
-            ),
           ),
           const SizedBox(
             height: 8.0,
@@ -47,7 +46,7 @@ class TutorsListSub extends StatelessWidget {
                 width: 4,
               ),
               Text(
-                tutor.rating.toString(),
+                '$rating',
                 style: textTheme.bodySmall!.copyWith(
                   color: colorScheme.onBackground.withOpacity(.5),
                   fontWeight: FontWeight.bold,
@@ -77,7 +76,8 @@ class TutorsListSub extends StatelessWidget {
       ),
       trailing: FilledButton(
         onPressed: () {
-          Navigator.pushNamed(context, "/ProfilePublic");
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => ProfileTutorUS(email)));
         },
         child: const Text("Book Now"),
       ),

@@ -1,46 +1,32 @@
 import 'dart:io';
 
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebaseconnations/Componet/action_btn.dart';
 import 'package:firebaseconnations/Componet/constants.dart';
-import 'package:firebaseconnations/Componet/snackbar.dart';
 import 'package:firebaseconnations/Componet/upload_image.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
 import 'package:firebaseconnations/Model/subject_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class CreateSubject extends StatefulWidget {
-  const CreateSubject({super.key});
+class updateSubject extends StatefulWidget {
+  updateSubject({super.key, this.data, this.id});
+  var data, id;
 
   @override
-  State<CreateSubject> createState() => _CreateSubjectState();
+  State<updateSubject> createState() => _updateSubjectState();
 }
 
-class _CreateSubjectState extends State<CreateSubject> {
+class _updateSubjectState extends State<updateSubject> {
   final nameController = TextEditingController();
   final hourlyController = TextEditingController();
   final textController = TextEditingController();
   final Subjects _subjects = Subjects();
-  final List<String> subjectsGrup = [
-    'Mathematics',
-    'English',
-    'Informatics',
-    'Science',
-    'History',
-    'Geography',
-    'Art',
-    'Music',
-    'Physical Education',
-    'Religion',
-  ];
-  String? selectedGroup;
 
   final _storage = FirebaseStorage.instance;
   File? _photo;
   final ImagePicker _picker = ImagePicker();
-  late var destination;
+  var destination;
   Future imgFromGallery() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
 
@@ -72,6 +58,17 @@ class _CreateSubjectState extends State<CreateSubject> {
   late String subjectsName;
   late String hourlyWage;
   late String description = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nameController.text = widget.data['subjectsName'];
+    hourlyController.text = widget.data['hourlyWage'];
+    textController.text = widget.data['description'];
+    subjectsName = widget.data['subjectsName'];
+    hourlyWage = widget.data['hourlyWage'];
+    description = widget.data['description'];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +82,7 @@ class _CreateSubjectState extends State<CreateSubject> {
             children: [
               UploadImage(() async {
                 imgFromGallery();
-              }, _photo),
+              }, _photo != null ? _photo : widget.data['imgPath']),
               SizedBox(
                   height: 100,
                   child: TextField(
@@ -98,66 +95,6 @@ class _CreateSubjectState extends State<CreateSubject> {
                       decoration: kTextFildDecoration.copyWith(
                           hintText: "Enter your SubjectsName",
                           icon: const Icon(Icons.subject)))),
-              SizedBox(
-                height: 100,
-                child: DropdownButtonFormField2<String>(
-                  decoration: const InputDecoration(
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(32.0))),
-                  ),
-                  isExpanded: true,
-                  hint: const Text(
-                    'Select Your Role',
-                    style: TextStyle(fontSize: 16, color: Color(0xFF595959)),
-                  ),
-                  items: subjectsGrup
-                      .map((item) => DropdownMenuItem<String>(
-                            value: item,
-                            child: Text(
-                              item,
-                              style: const TextStyle(
-                                fontSize: 14,
-                                color: Color(0xFF595959),
-                              ),
-                            ),
-                          ))
-                      .toList(),
-                  validator: (value) {
-                    if (value == null) {
-                      return 'Please select Role.';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    setState(() {
-                      selectedGroup = value;
-                    });
-                  },
-                  onSaved: (value) {
-                    selectedGroup = value;
-                  },
-                  buttonStyleData: const ButtonStyleData(
-                    padding: EdgeInsets.only(right: 8),
-                  ),
-                  iconStyleData: const IconStyleData(
-                    icon: Icon(
-                      Icons.arrow_drop_down,
-                      color: Colors.black,
-                    ),
-                    iconSize: 24,
-                  ),
-                  dropdownStyleData: DropdownStyleData(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  menuItemStyleData: const MenuItemStyleData(
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                  ),
-                ),
-              ),
               SizedBox(
                   height: 100,
                   child: TextField(
@@ -196,25 +133,27 @@ class _CreateSubjectState extends State<CreateSubject> {
                 height: 50,
                 width: 200,
                 child: ActionBtn(() {
-                  if (description == "" ||
-                      hourlyWage == "" ||
-                      subjectsName == "" ||
-                      selectedGroup == "") {
-                    showCustomSnackBar(
-                        context, "Please fill in all the text fields.");
-                  } else {
-                    uploadFile().then((value) => _subjects.createSubject(
-                        subjectsName,
-                        hourlyWage,
-                        description,
-                        destination,
-                        selectedGroup));
-
-                    textController.clear();
-                    hourlyController.clear();
-                    nameController.clear();
-                  }
-                }, "Create", Icons.arrow_right, null),
+                  uploadFile().then((value) => _subjects.updateSubject(
+                      subjectsName,
+                      hourlyWage,
+                      description,
+                      destination != null
+                          ? destination
+                          : widget.data['imgPath'],
+                      widget.id));
+                  Navigator.pushNamed(context, "/ProfilePublic");
+                }, "Update", Icons.arrow_right, null),
+              ),
+              const SizedBox(
+                height: 30,
+              ),
+              SizedBox(
+                height: 50,
+                width: 200,
+                child: ActionBtn(() {
+                  _subjects.deleteSubject(widget.id);
+                  Navigator.pushNamed(context, "/ProfilePublic");
+                }, "delete ", Icons.arrow_right, Colors.red),
               )
             ],
           ),

@@ -33,7 +33,7 @@ class AppStartMenu extends StatelessWidget {
               color: Colors.transparent,
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(23),
+                  padding: const EdgeInsets.all(18),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: childrens,

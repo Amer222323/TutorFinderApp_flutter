@@ -1,11 +1,10 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 /*import 'package:dropdown_button2/dropdown_button2.dart';*/
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebaseconnations/Componet/snackbar.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
+import 'package:firebaseconnations/Model/subject_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -17,6 +16,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  final _model = Subjects();
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
@@ -35,35 +36,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
           email: _emailController.text.trim(),
           password: _passwordController.text.trim(),
         );
-        await addUserDetails(
-          _firstNameController.text.trim(),
-          _lastNameController.text.trim(),
-          _emailController.text.trim(),
-          /* int.parse(_ageController.text.trim()),*/
-          selectedRole,
-        );
+        await _model.createUser(
+            _firstNameController.text.trim(),
+            _lastNameController.text.trim(),
+            _emailController.text.trim(),
+            int.parse(_ageController.text.trim()));
         // ignore: use_build_context_synchronously
         Navigator.of(context).pushNamed("/");
       } catch (e) {
         showCustomSnackBar(context, "error signing Up");
       }
     }
-  }
-
-  Future<void> addUserDetails(
-    String firstName,
-    String lastName,
-    String email,
-    /*int age,*/
-    String? role,
-  ) async {
-    await FirebaseFirestore.instance.collection("users").add({
-      'first name': firstName,
-      'last name': lastName,
-      'email': email,
-      /*'age': age,*/
-      'role': 'user',
-    });
   }
 
   bool passwordConfirmed() {
@@ -155,80 +138,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
           hintText: "Age",
         ),
         const SizedBox(height: 15),
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: Colors.indigo.withOpacity(0.5),
-                spreadRadius: 5,
-                blurRadius: 7,
-                offset: const Offset(0, 3),
-              ),
-            ],
-            border: Border.all(
-              color: Colors.black12,
-              width: 2,
-            ),
-            color: Colors.grey[300],
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: DropdownButtonFormField2<String>(
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-            ),
-            isExpanded: true,
-            hint: const Text(
-              'Select Your Role',
-              style: TextStyle(fontSize: 16, color: Color(0xFF595959)),
-            ),
-            items: roleItems
-                .map((item) => DropdownMenuItem<String>(
-                      value: item,
-                      child: Text(
-                        item,
-                        style: const TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF595959),
-                        ),
-                      ),
-                    ))
-                .toList(),
-            validator: (value) {
-              if (value == null) {
-                return 'Please select Role.';
-              }
-              return null;
-            },
-            onChanged: (value) {
-              setState(() {
-                selectedRole = value;
-              });
-            },
-            onSaved: (value) {
-              selectedRole = value;
-            },
-            buttonStyleData: const ButtonStyleData(
-              padding: EdgeInsets.only(right: 8),
-            ),
-            iconStyleData: const IconStyleData(
-              icon: Icon(
-                Icons.arrow_drop_down,
-                color: Colors.black,
-              ),
-              iconSize: 24,
-            ),
-            dropdownStyleData: DropdownStyleData(
-              decoration: BoxDecoration(
-                color: const Color(0xFFDEDEDE),
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            menuItemStyleData: const MenuItemStyleData(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-            ),
-          ),
-        ),
         const SizedBox(height: 15),
         buildTextField(
           controller: _emailController,
