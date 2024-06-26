@@ -152,7 +152,7 @@ class _TopTutorsState extends State<_TopTutors> {
   final rnd = Random();
   getData() async {
     _test = await _model.getTutors();
-    print(_test);
+    // print(_test);
   }
 
   @override

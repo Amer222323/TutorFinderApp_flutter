@@ -235,19 +235,6 @@ class _ProfileTutorState extends State<ProfileTutor> {
                     color: colorScheme.inverseSurface,
                   ),
                   // subjekts
-
-                  const SectionTitle(
-                    title: "Working Time",
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    "from Monday To Friday 12:00-17:00",
-                    style: textTheme.headlineSmall!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: colorScheme.inverseSurface),
-                  ),
                 ],
               ),
             ],

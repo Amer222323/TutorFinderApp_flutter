@@ -32,18 +32,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: const AppTheme().themeData,
       routes: {
-        // "/": (context) => const Auth(),
         "/": (context) => const Auth(),
         "/Login": (context) => const Login(), //TODO change a class to auth()
         "/signupScreen": (context) => const SignUpScreen(),
         "/home": (context) => const Home(),
-        // "/ProfilePublicStudent": (context) => const ProfilePublicStudent(),
         "/ProfilePublic": (context) => const Profile(),
-
         "/ProfilePrivet": (context) => const ProfilePrivates(),
         "/Search": (context) => const Search(),
         "/CreateSubject": (context) => const CreateSubject(),
-        "/AllSubjects": (context) => const AllSubjects('math'),
+        "/AllSubjects": (context) => AllSubjects(),
       },
       title: 'Flutter Demo',
     );

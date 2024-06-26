@@ -5,7 +5,7 @@ import 'package:firebaseconnations/screen/subjekt_detalis.dart';
 import 'package:flutter/material.dart';
 
 class AllSubjects extends StatefulWidget {
-  const AllSubjects(this.subject, {super.key});
+  AllSubjects({this.subject, super.key});
   final String? subject;
 
   @override

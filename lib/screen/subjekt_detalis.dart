@@ -2,6 +2,7 @@
 
 import 'package:firebaseconnations/Componet/action_btn.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
+import 'package:firebaseconnations/screen/Profile/ProfileTutorUS.dart';
 import 'package:firebaseconnations/screen/booking.dart';
 import 'package:flutter/material.dart';
 
@@ -43,22 +44,21 @@ class _SubjectDetailsState extends State<SubjectDetails> {
                 style:
                     const TextStyle(fontFamily: 'MontserratBold', fontSize: 24),
               ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Image(image: AssetImage("images/starOn.png")),
-                  Image(image: AssetImage("images/starOn.png")),
-                  Image(image: AssetImage("images/starOn.png")),
-                  Image(image: AssetImage("images/star.png")),
-                  Image(image: AssetImage("images/star.png")),
-                ],
-              ),
-              Text(
-                "${widget.subId['Tutor']}",
-                style: const TextStyle(
-                    fontFamily: 'MontserratBold',
-                    fontSize: 24,
-                    color: Colors.black26),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ProfileTutorUS(widget.subId['Tutor'])));
+                },
+                child: Text(
+                  "${widget.subId['Tutor']}",
+                  style: const TextStyle(
+                      fontFamily: 'MontserratBold',
+                      fontSize: 24,
+                      color: Colors.black26),
+                ),
               ),
               const SizedBox(
                 height: 20,

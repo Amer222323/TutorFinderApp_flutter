@@ -239,7 +239,7 @@ class Subjects {
       await _fireStore.collection('users').doc(userID).update({
         'rating': newRat,
       });
-      print("is update");
+      // print("is update");
     } catch (error) {
       print("Failed to update user: $error");
       throw error;

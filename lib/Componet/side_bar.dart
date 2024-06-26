@@ -1,13 +1,47 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebaseconnations/Model/subject_model.dart';
+import 'package:firebaseconnations/screen/Profile/ProfileTutorUS.dart';
 import 'package:flutter/material.dart';
 
-class DrawerSideBar extends StatelessWidget {
+class DrawerSideBar extends StatefulWidget {
   DrawerSideBar({
     super.key,
   });
+
+  @override
+  State<DrawerSideBar> createState() => _DrawerSideBarState();
+}
+
+class _DrawerSideBarState extends State<DrawerSideBar> {
   final _model = Subjects();
+
   final _auth = FirebaseAuth.instance;
+
+  var _userData;
+  String? fname, lname, image;
+  String email = "";
+  getData() async {
+    try {
+      var test = await _model.getUserData();
+      setState(() {
+        _userData = test;
+        email = _userData['email'];
+        fname = _userData['first name'];
+        lname = _userData['last name'];
+        image = _userData['profileImageUrl'];
+      });
+    } catch (err) {
+      print(err);
+    }
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<bool>(
@@ -28,8 +62,38 @@ class DrawerSideBar extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Colors.blue,
                     ),
-                    child:
-                        Text('Bild'), // TODO: add Profile image and user name
+                    margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfileTutorUS(email)));
+                      },
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: image != null
+                                ? NetworkImage(image!)
+                                : const AssetImage("images/nour.png")
+                                    as ImageProvider,
+                            radius: 65.0,
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          Text(
+                            'Hi $fname $lname',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                    // TODO: add Profile image and user name
                   ),
                   ListTile(
                     title: const Text('Home'),

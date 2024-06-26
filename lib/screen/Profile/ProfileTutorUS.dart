@@ -8,19 +8,21 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ProfileTutorUS extends StatefulWidget {
   ProfileTutorUS(this.email);
-  String email;
+  final String email;
+
   @override
   State<ProfileTutorUS> createState() => _ProfileTutorUSState();
 }
 
 class _ProfileTutorUSState extends State<ProfileTutorUS> {
   double? rating;
+  double pRating = 0.0;
   String? subjects, phoneNumber, biography, fname, lname;
   String email = "";
   final _model = Subjects();
   var _userData;
   String? profileImageUrl;
-  bool isLoading = true; // Add a loading state
+  bool isLoading = true;
 
   getData() async {
     try {
@@ -30,7 +32,6 @@ class _ProfileTutorUSState extends State<ProfileTutorUS> {
         fname = _userData['first name'];
         lname = _userData['last name'];
         profileImageUrl = _userData['profileImageUrl'];
-        // Handle subjects as a list
         if (_userData['subjects'] is List) {
           subjects = (_userData['subjects'] as List).join(', ');
         } else {
@@ -39,12 +40,13 @@ class _ProfileTutorUSState extends State<ProfileTutorUS> {
         biography = _userData['bio'];
         phoneNumber = _userData['phoneNumber'];
         email = _userData['email'];
-        isLoading = false; // Update the loading state
+        pRating = (_userData['rating'] as num).toDouble();
+        isLoading = false;
       });
     } catch (err) {
       print(err);
       setState(() {
-        isLoading = false; // Update the loading state even on error
+        isLoading = false;
       });
     }
   }
@@ -52,17 +54,18 @@ class _ProfileTutorUSState extends State<ProfileTutorUS> {
   @override
   void initState() {
     super.initState();
-    getData(); // Call getData in initState
+    getData();
   }
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+
     return AppStartMenu(
       children: [
         if (isLoading)
-          Center(child: CircularProgressIndicator()) // Show a loading indicator
+          Center(child: CircularProgressIndicator())
         else
           Column(
             children: [
@@ -82,28 +85,28 @@ class _ProfileTutorUSState extends State<ProfileTutorUS> {
                           : const AssetImage("images/nour.png")
                               as ImageProvider,
                     ),
-                    const SizedBox(
-                      width: 30,
-                    ),
+                    const SizedBox(width: 30),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
+                        children: <Widget>[
                           Text(
                             "$fname $lname",
                             style: textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: colorScheme.inverseSurface),
+                              fontWeight: FontWeight.bold,
+                              color: colorScheme.inverseSurface,
+                            ),
                           ),
                           Text(
                             "$subjects",
                             style: textTheme.bodyLarge!.copyWith(
-                                fontWeight: FontWeight.bold,
-                                color: colorScheme.inverseSurface),
+                              fontWeight: FontWeight.bold,
+                              color: colorScheme.inverseSurface,
+                            ),
                           ),
                           RatingBar.builder(
-                            initialRating: 3,
+                            initialRating: pRating,
                             minRating: 1,
                             direction: Axis.horizontal,
                             ignoreGestures: false,
@@ -116,20 +119,23 @@ class _ProfileTutorUSState extends State<ProfileTutorUS> {
                               Icons.star,
                               color: Colors.amber,
                             ),
-                            onRatingUpdate: (rating) {
-                              _model.updateRating(email, rating);
-                              print(rating);
+                            onRatingUpdate: (ratings) {
+                              _model.updateRating(email, ratings);
+                              setState(() {
+                                getData();
+                                pRating =
+                                    (_userData['rating'] as num).toDouble();
+                              });
                             },
                           ),
                         ],
                       ),
                     ),
+                    Text('(${pRating.toStringAsFixed(1)})')
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SizedBox(height: 15),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -137,12 +143,8 @@ class _ProfileTutorUSState extends State<ProfileTutorUS> {
                     height: 24.0,
                     color: colorScheme.inverseSurface,
                   ),
-                  const SectionTitle(
-                    title: "Phone Number",
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                  const SectionTitle(title: "Phone Number"),
+                  const SizedBox(height: 15),
                   Container(
                     padding: const EdgeInsets.all(20),
                     height: 100,
@@ -156,8 +158,9 @@ class _ProfileTutorUSState extends State<ProfileTutorUS> {
                         Text(
                           "$phoneNumber",
                           style: textTheme.headlineMedium!.copyWith(
-                              fontWeight: FontWeight.bold,
-                              color: colorScheme.inverseSurface),
+                            fontWeight: FontWeight.bold,
+                            color: colorScheme.inverseSurface,
+                          ),
                         ),
                         const Icon(
                           Icons.phone,
@@ -166,69 +169,59 @@ class _ProfileTutorUSState extends State<ProfileTutorUS> {
                       ],
                     ),
                   ),
-
                   Divider(
                     height: 24.0,
                     color: colorScheme.inverseSurface,
                   ),
-                  const SectionTitle(
-                    title: "Biography",
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
+                  const SectionTitle(title: "Biography"),
+                  const SizedBox(height: 15),
                   Text(
                     "$biography",
                     style: textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: colorScheme.inverseSurface),
+                      fontWeight: FontWeight.bold,
+                      color: colorScheme.inverseSurface,
+                    ),
                   ),
                   Divider(
                     height: 24.0,
                     color: colorScheme.inverseSurface,
                   ),
-                  // subjekts
-                  const SectionTitle(
-                    title: "Subjects",
-                  ),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Container(
-                    child: StreamBuilder(
-                      stream: _model.getSubjectById(email),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasError) {
-                          return Text('Error: ${snapshot.error}');
-                        }
-                        if (!snapshot.hasData) {
-                          return const Center(
-                            child: CircularProgressIndicator(
-                              backgroundColor: Colors.lightBlueAccent,
-                            ),
-                          );
-                        }
-                        final subjects = snapshot.data;
-                        List<SubjectCard> subjectsCard = [];
-                        subjects?.docs.forEach((doc) {
-                          final sub = SubjectCard(
-                              doc['subjectsName'],
-                              doc['hourlyWage'],
-                              doc['imgPath'],
-                              4,
-                              () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          SubjectDetails(doc.data()))));
-                          // print(doc.data());
-                          subjectsCard.add(sub);
-                        });
-                        return Column(
-                          children: subjectsCard,
+                  const SectionTitle(title: "Subjects"),
+                  const SizedBox(height: 15),
+                  StreamBuilder(
+                    stream: _model.getSubjectById(email),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Error: ${snapshot.error}');
+                      }
+                      if (!snapshot.hasData) {
+                        return const Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.lightBlueAccent,
+                          ),
                         );
-                      },
-                    ),
+                      }
+                      final subjects = snapshot.data;
+                      List<SubjectCard> subjectsCard = [];
+                      subjects?.docs.forEach((doc) {
+                        final sub = SubjectCard(
+                          doc['subjectsName'],
+                          doc['hourlyWage'],
+                          doc['imgPath'],
+                          4,
+                          () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => SubjectDetails(doc.data()),
+                            ),
+                          ),
+                        );
+                        subjectsCard.add(sub);
+                      });
+                      return Column(
+                        children: subjectsCard,
+                      );
+                    },
                   ),
                 ],
               ),
