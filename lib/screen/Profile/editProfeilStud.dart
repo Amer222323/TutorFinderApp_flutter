@@ -5,7 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebaseconnations/Componet/snackbar.dart';
 import 'package:firebaseconnations/Componet/upload_image.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
-import 'package:firebaseconnations/Model/subject_model.dart';
+import 'package:firebaseconnations/Model/FirebaseService.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -23,7 +23,7 @@ class Subject {
 
 class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
   final _auth = FirebaseAuth.instance;
-  final _model = Subjects();
+  final _model = FirebaseService();
   var _firstNameController = TextEditingController();
   var _biographyController = TextEditingController();
   var _lastNameController = TextEditingController();
@@ -71,8 +71,6 @@ class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
     }
   }
 
-  // to pick a image
-  // change passwd
   bool _isLoading = false;
   String? _errorMessage;
   var _isObsecured;

@@ -1,6 +1,6 @@
 import 'package:firebaseconnations/Componet/subject_card.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
-import 'package:firebaseconnations/Model/subject_model.dart';
+import 'package:firebaseconnations/Model/FirebaseService.dart';
 import 'package:firebaseconnations/screen/subjekt_detalis.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -18,7 +18,7 @@ class _ProfileTutorState extends State<ProfileTutor> {
   double? rating;
   String? subjects, phoneNumber, biography, fname, lname;
   String email = "";
-  final _model = Subjects();
+  final _model = FirebaseService();
   var _userData;
   String? profileImageUrl;
   bool isLoading = true; // Add a loading state

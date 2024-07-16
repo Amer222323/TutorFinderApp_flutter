@@ -1,5 +1,4 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebaseconnations/repositories/tutor_repository.dart';
 import 'package:firebaseconnations/screen/Profile/create_subject.dart';
 import 'package:firebaseconnations/screen/all_subjects.dart';
 import 'package:firebaseconnations/screen/auth/Profile.dart';
@@ -8,13 +7,11 @@ import 'package:firebaseconnations/screen/auth/auth.dart';
 import 'package:firebaseconnations/screen/auth/login.dart';
 import 'package:firebaseconnations/screen/auth/signup_screen.dart';
 import 'package:firebaseconnations/screen/home_screen.dart';
-import 'package:firebaseconnations/screen/search.dart';
 import 'package:firebaseconnations/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:models/models.dart';
 
 final dbClient = DbClient();
-final tutorRepository = TutorRepository(/*dbClient: dbClient*/);
 void main() async {
   // Ensure Flutter bindings are initialized before Firebase
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +35,6 @@ class MyApp extends StatelessWidget {
         "/home": (context) => const Home(),
         "/ProfilePublic": (context) => const Profile(),
         "/ProfilePrivet": (context) => const ProfilePrivates(),
-        "/Search": (context) => const Search(),
         "/CreateSubject": (context) => const CreateSubject(),
         "/AllSubjects": (context) => AllSubjects(),
       },

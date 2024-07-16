@@ -10,8 +10,7 @@ void showCustomSnackBar(BuildContext context, String message) {
             Icons.error,
             color: Colors.white,
           ),
-          const SizedBox(
-              width: 15), // Add some space between the icon and the text
+          const SizedBox(width: 15),
           Expanded(
             child: Text(
               message,

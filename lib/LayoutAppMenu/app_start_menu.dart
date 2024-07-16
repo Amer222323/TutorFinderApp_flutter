@@ -16,9 +16,8 @@ class AppStartMenu extends StatelessWidget {
       decoration: const BoxDecoration(
         color: Colors.transparent,
         image: DecorationImage(
-          image: AssetImage(
-              'images/homeK.jpg'), // Provide the path to your image asset
-          fit: BoxFit.cover, // You can adjust the fit as needed
+          image: AssetImage('images/homeK.jpg'),
+          fit: BoxFit.cover,
         ),
       ),
       child: Scaffold(

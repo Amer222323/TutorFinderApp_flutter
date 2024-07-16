@@ -1,5 +1,5 @@
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
-import 'package:firebaseconnations/Model/subject_model.dart';
+import 'package:firebaseconnations/Model/FirebaseService.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePublicStudent extends StatefulWidget {
@@ -10,7 +10,7 @@ class ProfilePublicStudent extends StatefulWidget {
 }
 
 class _ProfilePublicStudentState extends State<ProfilePublicStudent> {
-  final _model = Subjects();
+  final _model = FirebaseService();
   var _userData;
   String? fname, lname, image;
   String? age;

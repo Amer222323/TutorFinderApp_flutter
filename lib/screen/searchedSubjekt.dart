@@ -75,7 +75,7 @@ class StreamSubjects extends StatelessWidget {
                   context,
                   MaterialPageRoute(
                       builder: (context) => SubjectDetails(doc.data()))));
-          // print(doc.data());
+
           subjectsCard.add(sub);
         });
         return Column(

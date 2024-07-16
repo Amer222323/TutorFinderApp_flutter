@@ -1,13 +1,10 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
-import 'package:firebaseconnations/Componet/action_btn.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
 import 'package:firebaseconnations/screen/Profile/ProfileTutorUS.dart';
-import 'package:firebaseconnations/screen/booking.dart';
 import 'package:flutter/material.dart';
 
 class SubjectDetails extends StatefulWidget {
-  // final _fireStore = FirebaseFirestore.instance;
   const SubjectDetails(this.subId, {super.key});
   final subId;
 
@@ -75,11 +72,6 @@ class _SubjectDetailsState extends State<SubjectDetails> {
                           fontSize: 17,
                           color: Colors.black),
                       '${widget.subId['description']}')),
-              ActionBtn(() {
-                // TODO Booking neu Page with id
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => const Booking()));
-              }, "Booking neu", Icons.arrow_right, null),
             ],
           ),
         )

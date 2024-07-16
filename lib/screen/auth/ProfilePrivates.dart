@@ -1,4 +1,4 @@
-import 'package:firebaseconnations/Model/subject_model.dart';
+import 'package:firebaseconnations/Model/FirebaseService.dart';
 import 'package:firebaseconnations/screen/Profile/editProfeilStud.dart';
 import 'package:firebaseconnations/screen/Profile/profile_privet.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ class ProfilePrivates extends StatefulWidget {
 }
 
 class _ProfilePrivatesState extends State<ProfilePrivates> {
-  final _model = Subjects();
+  final _model = FirebaseService();
   bool _rollFuture = false;
   getRoll() async {
     var roll = await _model.checkRolle();

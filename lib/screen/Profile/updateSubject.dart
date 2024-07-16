@@ -5,7 +5,7 @@ import 'package:firebaseconnations/Componet/action_btn.dart';
 import 'package:firebaseconnations/Componet/constants.dart';
 import 'package:firebaseconnations/Componet/upload_image.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
-import 'package:firebaseconnations/Model/subject_model.dart';
+import 'package:firebaseconnations/Model/FirebaseService.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -21,7 +21,7 @@ class _updateSubjectState extends State<updateSubject> {
   final nameController = TextEditingController();
   final hourlyController = TextEditingController();
   final textController = TextEditingController();
-  final Subjects _subjects = Subjects();
+  final FirebaseService _subjects = FirebaseService();
 
   final _storage = FirebaseStorage.instance;
   File? _photo;

@@ -4,7 +4,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebaseconnations/Componet/snackbar.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
-import 'package:firebaseconnations/Model/subject_model.dart';
+import 'package:firebaseconnations/Model/FirebaseService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,7 +16,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final _model = Subjects();
+  final _model = FirebaseService();
 
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();

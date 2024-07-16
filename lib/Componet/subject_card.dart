@@ -46,7 +46,7 @@ class _SubjectCardState extends State<SubjectCard> {
                     image: DecorationImage(
                       image: NetworkImage(widget.imgPath),
                       fit: BoxFit.cover,
-                    ), // Use null if imageURL is not available
+                    ),
                   ),
                 ),
                 Column(
@@ -71,26 +71,6 @@ class _SubjectCardState extends State<SubjectCard> {
                     )
                   ],
                 ),
-                // Container(
-                //   width: 70,
-                //   height: 70,
-                //   decoration: BoxDecoration(
-                //     color: Colors.transparent,
-                //     image: DecorationImage(
-                //       image: AssetImage(
-                //           'images/${widget.rate < 4 ? 'star' : 'starOn'}.png'), // Provide the path to your image asset
-                //       fit: BoxFit.cover, // You can adjust the fit as needed
-                //     ),
-                //   ),
-                //   child: Center(
-                //       child: Text(
-                //     "${widget.rate}",
-                //     style: const TextStyle(
-                //         fontWeight: FontWeight.w900,
-                //         fontSize: 20,
-                //         color: Colors.white),
-                //   )),
-                // )
               ],
             ),
           ),

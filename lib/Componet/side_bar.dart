@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebaseconnations/Model/subject_model.dart';
+import 'package:firebaseconnations/Model/FirebaseService.dart';
 import 'package:firebaseconnations/screen/Profile/ProfileTutorUS.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,7 @@ class DrawerSideBar extends StatefulWidget {
 }
 
 class _DrawerSideBarState extends State<DrawerSideBar> {
-  final _model = Subjects();
+  final _model = FirebaseService();
 
   final _auth = FirebaseAuth.instance;
 
@@ -139,12 +139,42 @@ class _DrawerSideBarState extends State<DrawerSideBar> {
               child: ListView(
                 padding: EdgeInsets.zero,
                 children: [
-                  const DrawerHeader(
+                  DrawerHeader(
                     decoration: BoxDecoration(
                       color: Colors.blue,
                     ),
-                    child:
-                        Text('Bild'), // TODO: add Profile image and user name
+                    margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ProfileTutorUS(email)));
+                      },
+                      child: Column(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: image != null
+                                ? NetworkImage(image!)
+                                : const AssetImage("images/nour.png")
+                                    as ImageProvider,
+                            radius: 65.0,
+                          ),
+                          SizedBox(
+                            height: 2,
+                          ),
+                          Text(
+                            'Hi $fname $lname',
+                            style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white),
+                          )
+                        ],
+                      ),
+                    ),
+                    // TODO: add Profile image and user name
                   ),
                   ListTile(
                     title: const Text('Home'),

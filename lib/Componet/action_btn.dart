@@ -6,7 +6,7 @@ class ActionBtn extends StatelessWidget {
       {super.key});
   final Function onPress;
   final String textBtn;
-  final IconData? icon; // Mark icon as IconData?
+  final IconData? icon;
   final Color? color;
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ class ActionBtn extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            if (icon != null) // Check if icon is not null
+            if (icon != null)
               Icon(
                 icon!,
                 color: Colors.white,

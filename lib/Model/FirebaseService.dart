@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class Subjects {
+class FirebaseService {
   final _logedUser = FirebaseAuth.instance.currentUser;
   final _fireStore = FirebaseFirestore.instance;
 

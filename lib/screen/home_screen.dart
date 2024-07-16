@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebaseconnations/Model/subject_model.dart';
+import 'package:firebaseconnations/Model/FirebaseService.dart';
 import 'package:firebaseconnations/screen/searchedSubjekt.dart';
 import 'package:firebaseconnations/widgets/Avatars/subject_avatar_with_text.dart';
 import 'package:firebaseconnations/widgets/list_Sub/tutors_list_sub.dart';
@@ -30,7 +30,7 @@ class _HomeViewState extends State<HomeView> {
     Navigator.pushNamed(context, '/ProfilePrivet');
   }
 
-  final _model = Subjects();
+  final _model = FirebaseService();
   var _userData;
   String? fname, lname;
   getData() async {
@@ -146,7 +146,7 @@ class _TopTutors extends StatefulWidget {
 
 class _TopTutorsState extends State<_TopTutors> {
   List<Tutor> _tutor = [];
-  final _model = Subjects();
+  final _model = FirebaseService();
   var _test;
   bool isLoading = false;
   final rnd = Random();
