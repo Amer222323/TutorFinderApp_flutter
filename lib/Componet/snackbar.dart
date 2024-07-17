@@ -33,6 +33,38 @@ void showCustomSnackBar(BuildContext context, String message) {
   player.play(AssetSource('note1.wav'));
 }
 
+void showCustomSnackBarVar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Row(
+        children: [
+          const Icon(
+            Icons.error,
+            color: Colors.white,
+          ),
+          const SizedBox(width: 15),
+          Expanded(
+            child: Text(
+              message,
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ),
+        ],
+      ),
+      backgroundColor: Colors.green,
+      elevation: 6.0,
+      behavior: SnackBarBehavior.floating,
+      duration: const Duration(seconds: 2),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+    ),
+  );
+
+  final player = AudioPlayer();
+  player.play(AssetSource('note1.wav'));
+}
+
 Widget buildTextField({
   required TextEditingController controller,
   required String hintText,
@@ -44,7 +76,7 @@ Widget buildTextField({
       boxShadow: [
         BoxShadow(
           color: Colors.indigo.withOpacity(0.5),
-          spreadRadius: 5,
+          spreadRadius: 1,
           blurRadius: 7,
           offset: const Offset(0, 3),
         ),
@@ -87,7 +119,7 @@ Widget buildPasswordTextField(
       boxShadow: [
         BoxShadow(
           color: Colors.indigo.withOpacity(0.5),
-          spreadRadius: 5,
+          spreadRadius: 1,
           blurRadius: 7,
           offset: const Offset(0, 3),
         ),

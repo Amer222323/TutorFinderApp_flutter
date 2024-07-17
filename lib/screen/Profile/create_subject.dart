@@ -201,16 +201,21 @@ class _CreateSubjectState extends State<CreateSubject> {
                     showCustomSnackBar(
                         context, "Please fill in all the text fields.");
                   } else {
-                    uploadFile().then((value) => _subjects.createSubject(
-                        subjectsName,
-                        hourlyWage,
-                        description,
-                        destination,
-                        selectedGroup));
+                    try {
+                      uploadFile().then((value) => _subjects.createSubject(
+                          subjectsName,
+                          hourlyWage,
+                          description,
+                          destination,
+                          selectedGroup));
 
-                    textController.clear();
-                    hourlyController.clear();
-                    nameController.clear();
+                      textController.clear();
+                      hourlyController.clear();
+                      nameController.clear();
+                      showCustomSnackBarVar(context, "updated success");
+                    } catch (e) {
+                      showCustomSnackBar(context, "updated error!!");
+                    }
                   }
                 }, "Create", Icons.arrow_right, null),
               )

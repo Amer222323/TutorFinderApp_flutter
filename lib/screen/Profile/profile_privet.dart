@@ -226,22 +226,27 @@ class _ProfilePrivateState extends State<ProfilePrivate> {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    if (checkImg) {
-                      uploadFile().then((value) => _model.updateUser(
-                          firstName: _firstNameController.text,
-                          lastName: _lastNameController.text,
-                          age: _ageController.text,
-                          phoneNumber: _numController.text,
-                          profileImageUrl: destination,
-                          biographyController: _biographyController.text));
-                    } else {
-                      _model.updateUser(
-                          firstName: _firstNameController.text,
-                          lastName: _lastNameController.text,
-                          age: _ageController.text,
-                          phoneNumber: _numController.text,
-                          profileImageUrl: profileImageUrl!,
-                          biographyController: _biographyController.text);
+                    try {
+                      if (checkImg) {
+                        uploadFile().then((value) => _model.updateUser(
+                            firstName: _firstNameController.text,
+                            lastName: _lastNameController.text,
+                            age: _ageController.text,
+                            phoneNumber: _numController.text,
+                            profileImageUrl: destination,
+                            biographyController: _biographyController.text));
+                      } else {
+                        _model.updateUser(
+                            firstName: _firstNameController.text,
+                            lastName: _lastNameController.text,
+                            age: _ageController.text,
+                            phoneNumber: _numController.text,
+                            profileImageUrl: profileImageUrl!,
+                            biographyController: _biographyController.text);
+                      }
+                      showCustomSnackBarVar(context, "updated success");
+                    } catch (e) {
+                      showCustomSnackBar(context, "updated error!!");
                     }
                   },
                   child: const Text('Save'),
