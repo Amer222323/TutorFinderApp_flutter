@@ -107,7 +107,7 @@ class _CreateSubjectState extends State<CreateSubject> {
                   ),
                   isExpanded: true,
                   hint: const Text(
-                    'Select Your Role',
+                    'Select Group',
                     style: TextStyle(fontSize: 16, color: Color(0xFF595959)),
                   ),
                   items: subjectsGrup

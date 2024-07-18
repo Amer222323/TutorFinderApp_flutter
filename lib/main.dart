@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebaseconnations/screen/Profile/admin.dart';
 import 'package:firebaseconnations/screen/Profile/create_subject.dart';
 import 'package:firebaseconnations/screen/all_subjects.dart';
 import 'package:firebaseconnations/screen/auth/Profile.dart';
@@ -37,6 +38,7 @@ class MyApp extends StatelessWidget {
         "/ProfilePrivet": (context) => const ProfilePrivates(),
         "/CreateSubject": (context) => const CreateSubject(),
         "/AllSubjects": (context) => AllSubjects(),
+        "/admin": (context) => Admin(),
       },
       title: 'Flutter Demo',
     );

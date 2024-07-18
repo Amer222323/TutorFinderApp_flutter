@@ -23,7 +23,7 @@ class FirebaseService {
     String email,
     int age,
   ) async {
-    _fireStore.collection("users").add({
+    await _fireStore.collection("users").add({
       'first name': firstName,
       'last name': lastName,
       'email': email,
@@ -155,6 +155,86 @@ class FirebaseService {
     return tutors;
   }
 
+//Pending|In Progress|Completed|Rejected|On Hold|Denied
+  Future<void> createRequestRoll({
+    required String email,
+  }) async {
+    _fireStore
+        .collection("TutorRequest")
+        .add({'email': email, 'status': 'Pending', 'massage': ""});
+  }
+
+  Future<void> updateRequestRoll({
+    required String email,
+    required String status,
+    required String massage,
+  }) async {
+    var _data = await _fireStore
+        .collection('TutorRequest')
+        .where('email', isEqualTo: email)
+        .get();
+    var userID = _data.docs.first.id;
+
+    await _fireStore
+        .collection("TutorRequest")
+        .doc(userID)
+        .update({'email': email, 'status': status, 'massage': massage});
+  }
+
+  Future<Object?> getRequestRoll({
+    required String email,
+  }) async {
+    var _data = await _fireStore.collection('TutorRequest').get();
+
+    if (_data.docs.isEmpty) {
+      return false;
+    } else {
+      var doc = _data.docs.first;
+      return TutorRequest(
+        status: doc['status'],
+        message: doc['massage'],
+      );
+    }
+  }
+
+  Future<Object?> checkRequestRoll({
+    required String email,
+  }) async {
+    var _data = await _fireStore
+        .collection('TutorRequest')
+        .where('email', isEqualTo: email)
+        .get();
+
+    if (_data.docs.isEmpty) {
+      return false;
+    } else {
+      var doc = _data.docs.first;
+      return TutorRequest(
+        status: doc['status'],
+        message: doc['massage'],
+      );
+    }
+  }
+
+  Future<void> setRoll({
+    required String email,
+  }) async {
+    var _data = await _fireStore
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+    var userID = _data.docs.first.id;
+    // print(userID);
+    try {
+      await _fireStore.collection('users').doc(userID).update({
+        'role': 'Tutor',
+      });
+    } catch (error) {
+      print("Failed to update user: $error");
+      throw error;
+    }
+  }
+
   Future<bool> checkRolle() async {
     var _email = _logedUser?.email;
     final _fireStore = await FirebaseFirestore.instance;
@@ -164,6 +244,18 @@ class FirebaseService {
         .get();
     var role = _data.docs.first.data()['role'];
     var check = role == 'Tutor';
+    return await check;
+  }
+
+  Future<bool> isAdmin() async {
+    var _email = _logedUser?.email;
+    final _fireStore = await FirebaseFirestore.instance;
+    var _data = await _fireStore
+        .collection('users')
+        .where('email', isEqualTo: _email)
+        .get();
+    var role = _data.docs.first.data()['role'];
+    var check = role == 'admin';
     return await check;
   }
 
@@ -245,4 +337,11 @@ class FirebaseService {
       throw error;
     }
   }
+}
+
+class TutorRequest {
+  final String status;
+  final String message;
+
+  TutorRequest({required this.status, required this.message});
 }

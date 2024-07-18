@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebaseconnations/Componet/snackbar.dart';
 import 'package:firebaseconnations/Componet/upload_image.dart';
 import 'package:firebaseconnations/LayoutAppMenu/app_start_menu.dart';
 import 'package:firebaseconnations/Model/FirebaseService.dart';
+import 'package:firebaseconnations/screen/Profile/applyTutorEmail.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -24,60 +24,77 @@ class Subject {
 class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
   final _auth = FirebaseAuth.instance;
   final _model = FirebaseService();
-  var _firstNameController = TextEditingController();
-  var _biographyController = TextEditingController();
-  var _lastNameController = TextEditingController();
-  var _ageController = TextEditingController();
-  var _numController = TextEditingController();
-  var _prisePerHourController = TextEditingController();
-  var _passwd = TextEditingController();
-  var _newPasswd = TextEditingController();
-  var _confirmPasswd = TextEditingController();
+  late TextEditingController _firstNameController;
+  late TextEditingController _biographyController;
+  late TextEditingController _lastNameController;
+  late TextEditingController _ageController;
+  late TextEditingController _numController;
+  late TextEditingController _prisePerHourController;
+  late TextEditingController _passwd;
+  late TextEditingController _newPasswd;
+  late TextEditingController _confirmPasswd;
   String? profileImageUrl;
-  // to pick a image
   final _storage = FirebaseStorage.instance;
   File? _photo;
-  late var destination;
+  String? destination;
   bool checkImg = false;
   final ImagePicker _picker = ImagePicker();
-  Future imgFromGallery() async {
-    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+  bool _isLoading = false;
+  String? _errorMessage;
+  bool _isObsecured = true;
+  String email = "";
+  late Widget widgetReq = Text('data');
+  List<String> selectedSubjects = [];
+  bool _personalInfoExpanded = false;
+  bool _selectSubjectsExpanded = false;
 
-    setState(() {
-      if (pickedFile != null) {
-        _photo = File(pickedFile.path);
-        checkImg = true;
-      } else {
-        print('No image selected.');
-      }
-    });
+  @override
+  void initState() {
+    super.initState();
+    _firstNameController = TextEditingController();
+    _biographyController = TextEditingController();
+    _lastNameController = TextEditingController();
+    _ageController = TextEditingController();
+    _numController = TextEditingController();
+    _prisePerHourController = TextEditingController();
+    _passwd = TextEditingController();
+    _newPasswd = TextEditingController();
+    _confirmPasswd = TextEditingController();
+
+    if (_auth.currentUser != null) {
+      email = _auth.currentUser!.email!;
+    }
+
+    getInfos();
+    checkRequst();
   }
 
-  Future uploadFile() async {
-    if (_photo == null) return;
-    destination = DateTime.now().millisecond.toString();
-    try {
-      final ref = _storage.ref().child('images');
-      final refImg = ref.child(destination);
-      await refImg.putFile(_photo!);
-      destination = await refImg.getDownloadURL();
-      setState(() async {
-        profileImageUrl = await refImg.getDownloadURL();
-
-        print(profileImageUrl);
+  Future<void> imgFromGallery() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _photo = File(pickedFile.path);
+        checkImg = true;
       });
-    } catch (e) {
-      print('error occured');
+    } else {
+      print('No image selected.');
     }
   }
 
-  bool _isLoading = false;
-  String? _errorMessage;
-  var _isObsecured;
-  void toggleVisibility() {
-    setState(() {
-      _isObsecured = !_isObsecured;
-    });
+  Future<void> uploadFile() async {
+    if (_photo == null) return;
+    try {
+      final ref = _storage
+          .ref()
+          .child('images/${DateTime.now().millisecondsSinceEpoch}');
+      await ref.putFile(_photo!);
+      final url = await ref.getDownloadURL();
+      setState(() {
+        profileImageUrl = url;
+      });
+    } catch (e) {
+      print('Error occurred: $e');
+    }
   }
 
   Future<void> _changePassword(String password) async {
@@ -94,14 +111,12 @@ class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
         _isLoading = false;
       });
 
-      // Password update successful
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Password successfully updated')),
       );
 
-      // Optionally, sign out the user and redirect to the login screen
-      // await FirebaseAuth.instance.signOut();
-      // Navigator.pushReplacementNamed(context, '/login');
+      _auth.signOut();
+      Navigator.pushReplacementNamed(context, '/login');
     } on FirebaseAuthException catch (e) {
       setState(() {
         _isLoading = false;
@@ -115,9 +130,7 @@ class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
     }
   }
 
-  String email = "";
-  // ---------------
-  void getInfos() async {
+  Future<void> getInfos() async {
     var _infosUser = await _model.getUserData() as Map<String, dynamic>;
     setState(() {
       _firstNameController.text = _infosUser['first name'] ?? '';
@@ -129,25 +142,57 @@ class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _firstNameController = TextEditingController();
-    _lastNameController = TextEditingController();
-    _ageController = TextEditingController();
-    _numController = TextEditingController();
-    setState(() {
-      _isObsecured = true;
-      email = _auth.currentUser!.email!;
-    });
-
-    getInfos();
+  Color getStatusColor(String status) {
+    switch (status) {
+      case 'Pending':
+        return Colors.blue;
+      case 'In Progress':
+        return Colors.amber;
+      case 'Completed':
+        return Colors.green;
+      case 'Rejected':
+        return Colors.red;
+      case 'On Hold':
+        return Colors.orange;
+      case 'Denied':
+        return Colors.grey;
+      default:
+        return Colors.black; // Default color for unknown status
+    }
   }
 
-  List<String> selectedSubjects = [];
+  Future<void> checkRequst() async {
+    var checkREQ = await _model.checkRequestRoll(email: email);
+    setState(() {
+      if (checkREQ == false) {
+        widgetReq = ElevatedButton(
+            onPressed: () => Navigator.push(context,
+                MaterialPageRoute(builder: (context) => ApplayTutor())),
+            child: const Text('Start Apply for a tutor account'));
+      } else {
+        var request = checkREQ as TutorRequest;
 
-  bool _personalInfoExpanded = false;
-  bool _selectSubjectsExpanded = false;
+        widgetReq = Column(
+          children: [
+            Container(
+              width: 80,
+              height: 80,
+              child: CircleAvatar(
+                backgroundColor: getStatusColor(request.status),
+                child: Text(
+                  request.status,
+                  style: TextStyle(
+                      color: Colors
+                          .white), // Set text color to white for better contrast
+                ),
+              ),
+            ),
+            Text(request.message)
+          ],
+        );
+      }
+    });
+  }
 
   @override
   void dispose() {
@@ -156,7 +201,16 @@ class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
     _ageController.dispose();
     _numController.dispose();
     _prisePerHourController.dispose();
+    _passwd.dispose();
+    _newPasswd.dispose();
+    _confirmPasswd.dispose();
     super.dispose();
+  }
+
+  void toggleVisibility() {
+    setState(() {
+      _isObsecured = !_isObsecured;
+    });
   }
 
   @override
@@ -174,19 +228,16 @@ class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
               _personalInfoExpanded = expanded;
             });
           },
-          title: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Personal Information",
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+          title: const Center(
+            child: Text(
+              "Personal Information",
+              style: TextStyle(
+                fontFamily: "Montserrat",
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
-            ],
+            ),
           ),
           children: [
             Column(
@@ -210,32 +261,20 @@ class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
                   controller: _numController,
                   hintText: "Enter Your Phone Number",
                 ),
-                // const SizedBox(height: 10),
-                // buildTextField(
-                //   controller: _prisePerHourController,
-                //   hintText: "Enter Your Price",
-                // ),
-
                 const SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     if (checkImg) {
-                      uploadFile().then((value) => _model.updateUser(
-                          firstName: _firstNameController.text,
-                          lastName: _lastNameController.text,
-                          age: _ageController.text,
-                          phoneNumber: _numController.text,
-                          profileImageUrl: destination,
-                          biographyController: _biographyController.text));
-                    } else {
-                      _model.updateUser(
-                          firstName: _firstNameController.text,
-                          lastName: _lastNameController.text,
-                          age: _ageController.text,
-                          phoneNumber: _numController.text,
-                          profileImageUrl: profileImageUrl!,
-                          biographyController: _biographyController.text);
+                      await uploadFile();
                     }
+                    await _model.updateUser(
+                      firstName: _firstNameController.text,
+                      lastName: _lastNameController.text,
+                      age: _ageController.text,
+                      phoneNumber: _numController.text,
+                      profileImageUrl: profileImageUrl!,
+                      biographyController: _biographyController.text,
+                    );
                   },
                   child: const Text('Save'),
                 ),
@@ -251,62 +290,74 @@ class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
               _selectSubjectsExpanded = expanded;
             });
           },
-          title: const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Change Password",
-                style: TextStyle(
-                  fontFamily: "Montserrat",
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
+          title: const Center(
+            child: Text(
+              "Apply for a tutor account",
+              style: TextStyle(
+                fontFamily: "Montserrat",
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
               ),
-            ],
+            ),
+          ),
+          children: <Widget>[widgetReq],
+        ),
+        const SizedBox(height: 20),
+        ExpansionTile(
+          initiallyExpanded: _selectSubjectsExpanded,
+          onExpansionChanged: (expanded) {
+            setState(() {
+              _selectSubjectsExpanded = expanded;
+            });
+          },
+          title: const Center(
+            child: Text(
+              "Change Password",
+              style: TextStyle(
+                fontFamily: "Montserrat",
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Colors.black,
+              ),
+            ),
           ),
           children: [
-            SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             buildPasswordTextField(
                 controller: _newPasswd,
                 hintText: "New Password",
                 isObscured: _isObsecured,
                 toggleVisibility: toggleVisibility),
-            SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             buildPasswordTextField(
                 controller: _confirmPasswd,
                 hintText: "Confirm a new Password",
                 isObscured: _isObsecured,
                 toggleVisibility: toggleVisibility),
-            SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
-                // TODO change password + logout
+              onPressed: () async {
                 if (_newPasswd.text == _confirmPasswd.text) {
-                  _changePassword(_newPasswd.text).then((value) {
-                    _auth.signOut();
-                    _newPasswd.clear();
-                    _confirmPasswd.clear();
-                    Navigator.pushNamed(context, "/");
-                  });
+                  await _changePassword(_newPasswd.text);
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Password not corect')),
+                    SnackBar(content: Text('Passwords do not match')),
                   );
                 }
               },
               child: const Text('Save Password'),
             ),
-            SizedBox(
-              height: 20,
-            ),
+            const SizedBox(height: 20),
           ],
+        ),
+        const SizedBox(height: 20),
+        ElevatedButton(
+          onPressed: () {
+            _auth.signOut();
+            Navigator.pushNamed(context, "/");
+          },
+          child: const Text('Logout'),
         ),
       ],
     );
@@ -319,6 +370,28 @@ class _ProfilePrivateStudentState extends State<ProfilePrivateStudent> {
       decoration: InputDecoration(
         hintText: hintText,
         border: const OutlineInputBorder(),
+      ),
+    );
+  }
+
+  Widget buildPasswordTextField({
+    required TextEditingController controller,
+    required String hintText,
+    required bool isObscured,
+    required VoidCallback toggleVisibility,
+  }) {
+    return TextFormField(
+      controller: controller,
+      obscureText: isObscured,
+      decoration: InputDecoration(
+        hintText: hintText,
+        border: const OutlineInputBorder(),
+        suffixIcon: IconButton(
+          icon: Icon(
+            isObscured ? Icons.visibility : Icons.visibility_off,
+          ),
+          onPressed: toggleVisibility,
+        ),
       ),
     );
   }
