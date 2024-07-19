@@ -218,6 +218,7 @@ class FirebaseService {
 
   Future<void> setRoll({
     required String email,
+    required String roll,
   }) async {
     var _data = await _fireStore
         .collection('users')
@@ -227,7 +228,7 @@ class FirebaseService {
     // print(userID);
     try {
       await _fireStore.collection('users').doc(userID).update({
-        'role': 'Tutor',
+        'role': roll,
       });
     } catch (error) {
       print("Failed to update user: $error");

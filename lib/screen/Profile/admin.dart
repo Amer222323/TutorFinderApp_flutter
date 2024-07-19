@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebaseconnations/Componet/UserCard.dart';
 import 'package:firebaseconnations/Model/FirebaseService.dart';
 import 'package:firebaseconnations/screen/Profile/ProfileTutorAdmin.dart';
@@ -14,6 +15,7 @@ class Admin extends StatefulWidget {
 
 class _AdminState extends State<Admin> {
   final _fireStore = FirebaseFirestore.instance;
+  final _auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -52,6 +54,18 @@ class _AdminState extends State<Admin> {
                           StreamUsers(fireStore: _fireStore),
                         ],
                       ),
+                      ListTile(
+                        title: ElevatedButton(
+                          onPressed: () {
+                            _auth.signOut();
+                            Navigator.pushNamed(context, "/");
+                          },
+                          child: const Text('Logout'),
+                        ),
+                        onTap: () {
+                          Navigator.pushNamed(context, "/ChangePassword");
+                        },
+                      )
                     ],
                   ),
                 ),

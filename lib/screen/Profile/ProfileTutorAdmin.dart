@@ -356,7 +356,8 @@ class _ProfileTutorAdminState extends State<ProfileTutorAdmin> {
                                         } else {
                                           try {
                                             // TODO update the roll
-                                            _model.setRoll(email: email);
+                                            _model.setRoll(
+                                                email: email, roll: 'Tutor');
                                             showCustomSnackBarVar(
                                                 context, "Done");
                                           } catch (e) {
@@ -366,6 +367,32 @@ class _ProfileTutorAdminState extends State<ProfileTutorAdmin> {
                                         }
                                       }, "Accept", Icons.arrow_right,
                                           Colors.green),
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                    SizedBox(
+                                      height: 50,
+                                      width: 200,
+                                      child: ActionBtn(() {
+                                        if (textController.text == "" ||
+                                            selectedGroup == "") {
+                                          showCustomSnackBar(context,
+                                              "Please fill in all the text fields.");
+                                        } else {
+                                          try {
+                                            // TODO update the roll
+                                            _model.setRoll(
+                                                roll: 'user', email: email);
+                                            showCustomSnackBarVar(
+                                                context, "Done");
+                                          } catch (e) {
+                                            showCustomSnackBar(
+                                                context, "updated error!!");
+                                          }
+                                        }
+                                      }, "Remove the roll", null,
+                                          Colors.orangeAccent),
                                     )
                                   ],
                                 )
