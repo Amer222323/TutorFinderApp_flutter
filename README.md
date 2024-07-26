@@ -92,15 +92,17 @@ Die Hauptnavigation erfolgt über eine Sidebar, die die folgenden Abschnitte ent
 - **Fächer erstellen:** Tutoren können Fächer erstellen und modifizieren oder auch löschen.
 
 ### 3.4 Screenshots
-![Screenshot 1](./img/Screenshot_20240723_145451.png)
-![Screenshot 2](./img/Screenshot_20240723_145739.png)
-![Screenshot 3](./img/Screenshot_20240723_145839.png)
-![Screenshot 4](./img/Screenshot_20240723_150221.png)
-![Screenshot 5](./img/Screenshot_20240723_150446.png)
-![Screenshot 6](./img/Screenshot_20240723_150736.png)
-![Screenshot 7](./img/Screenshot_20240723_150736.png)
-![Screenshot 8](./img/Screenshot_20240723_151157.png)
-![Screenshot 9](./img/Screenshot_20240723_151304.png)
+<img src="./img/Screenshot_20240723_145451.png" alt="Screenshot 1" width="200"/>
+<img src="./img/Screenshot_20240723_145451.png" alt="Screenshot 1" width="200"/>
+<img src="./img/Screenshot_20240723_145739.png" alt="Screenshot 1" width="200"/>
+<img src="./img/Screenshot_20240723_145839.png" alt="Screenshot 1" width="200"/>
+<img src="./img/Screenshot_20240723_150221.png" alt="Screenshot 1" width="200"/>
+<img src="./img/Screenshot_20240723_150446.png" alt="Screenshot 1" width="200"/>
+<img src="./img/Screenshot_20240723_150736.png" alt="Screenshot 1" width="200"/>
+<img src="./img/Screenshot_20240723_150736.png" alt="Screenshot 1" width="200"/>
+<img src="./img/Screenshot_20240723_151157.png" alt="Screenshot 1" width="200"/>
+<img src="./img/Screenshot_20240723_151304.png" alt="Screenshot 1" width="200"/>
+
 ## 4. Architektur
 
 ### 4.1 Übersicht
