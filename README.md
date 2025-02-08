@@ -4,17 +4,17 @@
 
 ### Autoren:
 - **Amer Al Aloush**
-  - Matrikelnummer: 678721
+  
   - E-Mail: inf4049@hs-worms.de
   - Studiengang: Angewandte Informatik
 
 - **Mohammad Gaser**
-  - Matrikelnummer: 678565
+  
   - E-Mail: inf4024@hs-worms.de
   - Studiengang: Angewandte Informatik
 
 - **Qusai Shikh Ali**
-  - Matrikelnummer: 680280
+ 
   - E-Mail: inf4359@hs-worms.de
   - Studiengang: Angewandte Informatik
 
